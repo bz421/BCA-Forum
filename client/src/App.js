@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'
+import AuthContext from './Contexts/AuthContext'
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 
 function App() {
+  const [user, setUser]  = useState(null)
+  const [isInitiated, setIsInitiated] = useState(false)
+
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.setItem('token', null)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isInitiated && (
+        <AuthContext.Provider value={{user, setUser, handleLogout}}>
+          
+        </AuthContext.Provider>
+      )}
     </div>
   );
 }
