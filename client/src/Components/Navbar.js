@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,77 +54,80 @@ export default function MenuAppBar() {
     }
 
     return (
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography variant="h6" className={classes.title}>
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Link to="" className={classes.title} style={{textDecoration: "none", color: "inherit"}}>
+                        <Typography variant="h6">
                             BCA Forum
                         </Typography>
-                        {user ?
-                            (
-                                <div>
-                                    <Button
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={handleMenu}
-                                        color="inherit"
-                                    >
-                                        {user.name}
-                                    </Button>
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem onClick={logout}>Logout</MenuItem>
-                                    </Menu>
-                                </div>
-                            )
-                            :
-                            (
-                                <div>
-                                    <Button
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={handleMenu}
-                                        color="inherit"
-                                    >
-                                        Account
-                                    </Button>
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem onClick={handleLogin}>Login</MenuItem>
-                                        <MenuItem onClick={handleRegister}>Register</MenuItem>
-                                    </Menu>
-                                </div>
-                            )
-                        }
 
-                    </Toolbar>
-                </AppBar>
-            </div>
+                    </Link>
+                    {user ?
+                        (
+                            <div>
+                                <Button
+                                    size="large"
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    {user.name}
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={logout}>Logout</MenuItem>
+                                </Menu>
+                            </div>
+                        )
+                        :
+                        (
+                            <div>
+                                <Button
+                                    size="large"
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    Account
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleLogin}>Login</MenuItem>
+                                    <MenuItem onClick={handleRegister}>Register</MenuItem>
+                                </Menu>
+                            </div>
+                        )
+                    }
+
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 }

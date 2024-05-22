@@ -39,8 +39,9 @@ export default function SignIn() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <img src={duckheart} width="60%"/>
+                    <img src={duckheart} width="60%" alt="duckheart"/>
                 </Avatar>
+
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
