@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Navbar from './Components/Navbar'
 
 import Login from './Pages/Auth/Login'
+import Register from './Pages/Auth/Register'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -34,6 +35,7 @@ function App() {
               <Navbar />
               <Routes>
                 <Route path="/auth/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                <Route path="/auth/register" element={!user ? <Register /> : <Navigate to="/" />} />
               </Routes>
             </Fragment>
           </Router>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -34,19 +35,23 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn() {
     const classes = useStyles()
 
+    const handleOnSubmit = e => {
+        e.preventDefault()
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <img src={duckheart} width="60%" alt="duckheart"/>
+                    <img src={duckheart} width="60%" alt="duckheart" />
                 </Avatar>
 
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField 
+                <form className={classes.form} onSubmit={handleOnSubmit}>
+                    <TextField
                         variant="outlined"
                         margin="normal"
                         required
@@ -57,7 +62,7 @@ export default function SignIn() {
                         autoComplete="email"
                         autoFocus
                     />
-                    <TextField 
+                    <TextField
                         variant="outlined"
                         margin="normal"
                         required
