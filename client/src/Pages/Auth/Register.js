@@ -1,6 +1,5 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
-import AuthContext from '../../Contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -10,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { Form } from 'react-router-dom'
 import duckheart from './Images/duckheart.png'
+import validator from 'validator'
 import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
@@ -35,42 +35,63 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function SignIn() {
+export default function Register() {
+    const classes = useStyles()
     const navigate = useNavigate()
 
-    const {setUser} = useContext(AuthContext)
-    const classes = useStyles()
+    const [name, setName] = useState('')
+    // const [nameError, setNameError] = useState(null)
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(null)
     const [password, setPassword] = useState('')
     const [passwordError, setPasswordError] = useState(null)
+    const [passwordConfirmation, setPasswordConfirmation] = useState('')
+    // const [passwordConfirmationError, setPasswordConfirmationError] = useState(null)
 
-    const handleOnSubmit = async e => {
-        e.preventDefault()
-        let errors = 0
+    const handleOnSubmit = async event => {
+        event.preventDefault()
+        // setNameError(null)
         setEmailError(null)
         setPasswordError(null)
+        // setPasswordConfirmationError(null)
+        let errors = 0
+
+        // if (!name) {
+        //     setNameError("Name is required")    
+        //     errors++
+        // }
+
+        if (!validator.isEmail(email)) {
+            setEmailError('Email must be in correct format')
+            errors++
+        }
+
+        // if (!password) {
+        //     setPasswordError("Password is required")
+        //     errors++
+        // }
+
+        if (password !== passwordConfirmation) {
+            setPasswordError("Passwords don't match")
+            errors++
+        }
+
+        if (errors) return
 
         const data = {
+            name,
             email,
             password
         }
 
         try {
-            const response = await axios.post('/api/auth/login', data)
-            const {token, user} = response.data
-            console.log(`${typeof (token)}: ${token}`)
-            localStorage.setItem('token', token)
-            setUser(user)
+            await axios.post('/api/auth/register', data)
             navigate('/')
-            
+
         } catch (e) {
             const message = e.response.data.message
-            if (message === 'user_not_found') {
-                setEmailError('Wrong email')
-            }
-            else if (message === 'wrong_password') {
-                setPasswordError('Wrong password')
+            if (message === 'email_exists') {
+                setEmailError('User with this email already exists')
             }
         }
     }
@@ -80,42 +101,48 @@ export default function SignIn() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <img src={duckheart} width="60%" alt="duckheart" />
+                    <img src={duckheart} width="60%" alt="duckheart"/>
                 </Avatar>
 
                 <Typography component="h1" variant="h5">
-                    Sign In
+                    Register
                 </Typography>
                 <form className={classes.form} onSubmit={handleOnSubmit}>
                     <TextField
-                        variant="outlined"
-                        margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        label="Name"
+                        autoFocus
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                    <TextField 
+                        required
+                        fullWidth
                         label="Email Address"
-                        name="email"
-                        autoComplete="email"
                         autoFocus
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         error={!!emailError}
                         helperText={emailError}
                     />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
+                    <TextField 
                         required
                         fullWidth
-                        name="password"
                         label="Password"
                         type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={passwordError}
+                        value={password}
                         onChange={e => setPassword(e.target.value)}
                         error={!!passwordError}
                         helperText={passwordError}
+                    />
+                    <TextField
+                        required
+                        fullWidth
+                        label="Confirm Password"
+                        type="password"
+                        value={passwordConfirmation}
+                        onChange={e => setPasswordConfirmation(e.target.value)}
                     />
                     <Button
                         type="submit"
@@ -124,7 +151,7 @@ export default function SignIn() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        Register
                     </Button>
                 </form>
             </div>

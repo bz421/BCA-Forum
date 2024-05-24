@@ -4,15 +4,24 @@ import './App.css';
 import { useEffect, useState } from 'react'
 import AuthContext from './Contexts/AuthContext'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import axios from 'axios'
 import Navbar from './Components/Navbar'
 
 import Login from './Pages/Auth/Login'
+import Register from './Pages/Auth/Register'
 
 function App() {
   const [user, setUser] = useState(null)
   const [isInitiated, setIsInitiated] = useState(false)
 
-  const init = () => {
+  const init = async () => {
+    const token = localStorage.getItem('token')
+    console.log(`${typeof(token)}: ${token}`)
+    if (token && token !== 'null') {
+      const response = await axios.get('/api/auth/init', { params: { token } })
+      const { user } = response.data
+      setUser(user)
+    }
     setIsInitiated(true)
   }
 
@@ -34,6 +43,7 @@ function App() {
               <Navbar />
               <Routes>
                 <Route path="/auth/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                <Route path="/auth/register" element={!user ? <Register /> : <Navigate to="/" />} />
               </Routes>
             </Fragment>
           </Router>
