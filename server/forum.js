@@ -19,6 +19,8 @@ app.use(cors())
 
 app.use(express.static(path.join(__dirname, '..', 'client/build')))
 
+app.use('/api/auth/', require('./controllers/Auth'))
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client/build/index.html'))
 })

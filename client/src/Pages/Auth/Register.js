@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Register() {
     const classes = useStyles()
+    const navigate = useNavigate()
 
     const [name, setName] = useState('')
     // const [nameError, setNameError] = useState(null)
@@ -84,9 +86,13 @@ export default function Register() {
 
         try {
             await axios.post('/api/auth/register', data)
+            navigate('/')
 
         } catch (e) {
-            console.log(e.response.data.message)
+            const message = e.response.data.message
+            if (message === 'email_exists') {
+                setEmailError('User with this email already exists')
+            }
         }
     }
 
@@ -145,7 +151,7 @@ export default function Register() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        Register
                     </Button>
                 </form>
             </div>

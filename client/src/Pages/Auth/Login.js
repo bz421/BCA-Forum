@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import {useNavigate} from 'react-router-dom'
+import AuthContext from '../../Contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -8,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { Form } from 'react-router-dom'
 import duckheart from './Images/duckheart.png'
+import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -33,10 +36,43 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SignIn() {
-    const classes = useStyles()
+    const navigate = useNavigate()
 
-    const handleOnSubmit = e => {
+    const {setUser} = useContext(AuthContext)
+    const classes = useStyles()
+    const [email, setEmail] = useState('')
+    const [emailError, setEmailError] = useState(null)
+    const [password, setPassword] = useState('')
+    const [passwordError, setPasswordError] = useState(null)
+
+    const handleOnSubmit = async e => {
         e.preventDefault()
+        let errors = 0
+        setEmailError(null)
+        setPasswordError(null)
+
+        const data = {
+            email,
+            password
+        }
+
+        try {
+            const response = await axios.post('/api/auth/login', data)
+            const {token, user} = response.data
+            console.log(`${typeof (token)}: ${token}`)
+            localStorage.setItem('token', token)
+            setUser(user)
+            navigate('/')
+            
+        } catch (e) {
+            const message = e.response.data.message
+            if (message === 'user_not_found') {
+                setEmailError('Wrong email')
+            }
+            else if (message === 'wrong_password') {
+                setPasswordError('Wrong password')
+            }
+        }
     }
 
     return (
@@ -61,6 +97,10 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        error={!!emailError}
+                        helperText={emailError}
                     />
                     <TextField
                         variant="outlined"
@@ -72,6 +112,10 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={passwordError}
+                        onChange={e => setPassword(e.target.value)}
+                        error={!!passwordError}
+                        helperText={passwordError}
                     />
                     <Button
                         type="submit"
