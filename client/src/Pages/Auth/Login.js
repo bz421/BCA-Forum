@@ -112,7 +112,7 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        value={passwordError}
+                        value={password}
                         onChange={e => setPassword(e.target.value)}
                         error={!!passwordError}
                         helperText={passwordError}
