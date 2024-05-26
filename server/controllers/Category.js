@@ -4,10 +4,11 @@ const Category = require('../models/Category')
 const mongoose = require('mongoose')
 
 router.post('/create', async (req, res) => {
-    const {title} = req.body
+    // console.log('req: ' + req)
     const newCategory = Category({
-        title,
-        createdAt: Date.now()
+        title: req.body.title,
+        createdAt: Date.now(),
+        author: req.body.name
     })
 
     await newCategory.save()

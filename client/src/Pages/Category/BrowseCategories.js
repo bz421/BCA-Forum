@@ -21,17 +21,22 @@ export default function BrowseCategories() {
 
     const navigate = useNavigate()
     return (
-        <div style={{padding: "2rem"}}>
+        <div style={{ padding: "2rem" }}>
             <h1>Browse Classes</h1>
 
             <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button>
 
-            <Divider style={{margin: "2rem 0"}} />
+            <Divider style={{ margin: "2rem 0" }} />
 
             <List>
                 {categories.map((cat, index) => (
                     <ListItem button onClick={() => navigate(`/category/${cat._id}`)}>
-                        <ListItemText primary={cat.title} secondary={cat.createdAt} />
+                        <ListItemText primary={cat.title} secondary={
+                            <div>
+                                <div>Author: {cat.author}</div>
+                                <div>Created at: {cat.createdAt}</div>
+                            </div>
+                        } />
                     </ListItem>
                 ))}
             </List>

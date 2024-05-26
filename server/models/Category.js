@@ -4,6 +4,7 @@ const schema = mongoose.Schema
 
 const CategorySchema = new schema({
     title: String,
+    author: String,
     createdAt: Date
 })
 

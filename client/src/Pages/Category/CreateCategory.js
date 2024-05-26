@@ -1,18 +1,24 @@
+import {useContext} from 'react'
 import { useState, useEffect } from 'react'
 import {TextField} from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+import AuthContext from '../../Contexts/AuthContext';
+
 
 const CreateCategory = () => {
+    const { user, handleLogout } = useContext(AuthContext)
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
 
     const handleOnSubmit = async e => {
         e.preventDefault()
+        const name = user.name
 
         const data = {
-            title
+            title,
+            name
         }
 
         const response = await axios.post('/api/category/create', data)
