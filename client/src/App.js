@@ -9,6 +9,10 @@ import Navbar from './Components/Navbar'
 
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
+import Home from './Pages/Home'
+import CreateCategory from './Pages/Category/CreateCategory'
+import BrowseCategories from './Pages/Category/BrowseCategories'
+import ShowCategory from './Pages/Category/ShowCategory'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -16,7 +20,7 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem('token')
-    console.log(`${typeof(token)}: ${token}`)
+    console.log(`${typeof (token)}: ${token}`)
     if (token && token !== 'null') {
       const response = await axios.get('/api/auth/init', { params: { token } })
       const { user } = response.data
@@ -42,8 +46,13 @@ function App() {
             <Fragment>
               <Navbar />
               <Routes>
+                <Route path="/" exact element={<Home />} />
                 <Route path="/auth/login" element={!user ? <Login /> : <Navigate to="/" />} />
                 <Route path="/auth/register" element={!user ? <Register /> : <Navigate to="/" />} />
+                <Route path="/category/create" element={user ? <CreateCategory /> : <Navigate to="/auth/login" />} />
+                <Route path="/category/:id" element={user ? <ShowCategory /> : <Navigate to="/auth/login" />} />
+                <Route path="/category/" element={user ? <BrowseCategories /> : <Navigate to="/auth/login" />} />
+
               </Routes>
             </Fragment>
           </Router>

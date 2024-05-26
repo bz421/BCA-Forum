@@ -61,8 +61,10 @@ export default function MenuAppBar() {
                         <Typography variant="h6">
                             BCA Forum
                         </Typography>
-
                     </Link>
+                    <Button color="inherit" onClick={() => navigate('/category/')}>
+                        Categories
+                    </Button>
                     {user ?
                         (
                             <div>
