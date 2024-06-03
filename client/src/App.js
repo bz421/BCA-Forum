@@ -13,6 +13,9 @@ import Home from './Pages/Home'
 import CreateCategory from './Pages/Category/CreateCategory'
 import BrowseCategories from './Pages/Category/BrowseCategories'
 import ShowCategory from './Pages/Category/ShowCategory'
+import CreateClass from './Pages/Class/CreateClass'
+import BrowseClasses from './Pages/Class/BrowseClasses'
+import ShowClasses from './Pages/Class/ShowClasses'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -49,10 +52,14 @@ function App() {
                 <Route path="/" exact element={<Home />} />
                 <Route path="/auth/login" element={!user ? <Login /> : <Navigate to="/" />} />
                 <Route path="/auth/register" element={!user ? <Register /> : <Navigate to="/" />} />
+
                 <Route path="/category/create" element={user ? <CreateCategory /> : <Navigate to="/auth/login" />} />
                 <Route path="/category/:id" element={user ? <ShowCategory /> : <Navigate to="/auth/login" />} />
                 <Route path="/category/" element={user ? <BrowseCategories /> : <Navigate to="/auth/login" />} />
 
+                <Route path="/class/create/:id" element={user ? <CreateClass /> : <Navigate to="/auth/login" />} />
+                <Route path="/class/:id" element={user ? <ShowClasses /> : <Navigate to="/auth/login" />} />
+                <Route path="/class/" element={user ? <BrowseClasses /> : <Navigate to="/auth/login" />} />
               </Routes>
             </Fragment>
           </Router>

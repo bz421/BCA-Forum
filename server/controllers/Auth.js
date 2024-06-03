@@ -5,17 +5,20 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 router.get('/init', async (req, res) => {
-    const {userId} = jwt.verify(req.query.token, 'app')
-    const user = await User.findById(userId)
     let response = null
-    if (user) {
-        response = user
+
+    if (req.query.token) {
+        const { userId } = jwt.verify(req.query.token, 'app')
+        const user = await User.findById(userId)
+        if (user) {
+            response = user
+        }
     }
-    res.send({user: response})
+    res.send({ user: response })
 })
 
 router.post('/register', async (req, res) => {
-    const userExists = await User.findOne({email: req.body.email})
+    const userExists = await User.findOne({ email: req.body.email })
     if (userExists) {
         res.status(400).send({
             message: 'email_exists'
@@ -35,7 +38,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    const user = await User.findOne({email: req.body.email})
+    const user = await User.findOne({ email: req.body.email })
     if (!user) {
         res.status(404).send({
             message: 'user_not_found'
@@ -50,8 +53,8 @@ router.post('/login', async (req, res) => {
         })
         return
     }
-    
-    const token = jwt.sign({userId: user._id}, 'app')
+
+    const token = jwt.sign({ userId: user._id }, 'app')
     res.send({
         token,
         user
