@@ -17,6 +17,8 @@ import CreateClass from './Pages/Class/CreateClass'
 import BrowseClasses from './Pages/Class/BrowseClasses'
 import ShowClasses from './Pages/Class/ShowClasses'
 
+import Profile from './Pages/Profile'
+
 function App() {
   const [user, setUser] = useState(null)
   const [isInitiated, setIsInitiated] = useState(false)
@@ -60,6 +62,8 @@ function App() {
                 <Route path="/class/create/:id" element={user ? <CreateClass /> : <Navigate to="/auth/login" />} />
                 <Route path="/class/:id" element={user ? <ShowClasses /> : <Navigate to="/auth/login" />} />
                 <Route path="/class/" element={user ? <BrowseClasses /> : <Navigate to="/auth/login" />} />
+
+                <Route path="/profile/" element={user ? <Profile /> : <Navigate to="/auth/login"/>}/>
               </Routes>
             </Fragment>
           </Router>
