@@ -18,7 +18,7 @@ router.post('/create', async (req, res) => {
 })  
 
 router.get('/:id', async (req, res) => {
-    console.log("post id: " + req.params.id)
+    console.log("class id: " + req.params.id)
     const cLass = await Class.findById((req.params.id))
     if (!cLass || cLass === 'null') {
         res.status(404).send({
