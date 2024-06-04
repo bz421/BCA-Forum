@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, '..', 'client/build')))
 app.use('/api/auth/', require('./controllers/Auth'))
 app.use('/api/category/', require('./controllers/Category'))
 app.use('/api/class/', require('./controllers/Class'))
+app.use('/api/thread/', require('./controllers/Thread'))
 
 
 app.get('*', (req, res) => {
