@@ -23,16 +23,15 @@ export default function ShowClass() {
 
     const getClass = async () => {
         const response = await axios.get('/api/class/' + id)
-        console.log(response)
         setCLass(response.data)
     }
 
     const getThreads = async () => {
         const response = await axios.get('/api/thread/class/' + id)
-        console.log(response)
         setThreads(response.data)
     }
 
+    console.log(cLass)
     return (
         <div style={{padding: "2rem"}}>
             {cLass && <h1>{cLass.title}</h1>}
@@ -40,7 +39,7 @@ export default function ShowClass() {
             <Button variant="contained" color="primary" onClick={() => navigate('/thread/create/' + id)}>Create Thread</Button>
             <List>
                 {threads.map((thread, index) => (
-                    <ListItem button onClick={() => navigate(`/thread/${thread._id}`)}>
+                    <ListItem key={index} button onClick={() => navigate(`/thread/${thread._id}`)}>
                         <ListItemText primary={thread.title} secondary={
                             <div>
                                 <div>Author: {thread.name}</div>
