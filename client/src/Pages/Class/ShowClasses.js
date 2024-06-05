@@ -7,6 +7,8 @@ import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
+import Latex from 'react-latex-next'
+import 'katex/dist/katex.min.css'
 
 export default function ShowClass() {
     const { user, handleLogout } = useContext(AuthContext)
@@ -40,7 +42,10 @@ export default function ShowClass() {
             <List>
                 {threads.map((thread, index) => (
                     <ListItem key={index} button onClick={() => navigate(`/thread/${thread._id}`)}>
-                        <ListItemText primary={thread.title} secondary={
+                        <ListItemText primary={
+                            <Latex>{thread.title}</Latex>
+                        } 
+                        secondary={
                             <div>
                                 <div>Author: {thread.name}</div>
                                 <div>Created at: {thread.createdAt}</div>
