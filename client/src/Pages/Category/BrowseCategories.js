@@ -30,7 +30,7 @@ export default function BrowseCategories() {
 
             <List>
                 {categories.map((cat, index) => (
-                    <ListItem button onClick={() => navigate(`/category/${cat._id}`)}>
+                    <ListItem key={index} button onClick={() => navigate(`/category/${cat._id}`)}>
                         <ListItemText primary={cat.title} secondary={
                             <div>
                                 <div>Author: {cat.author}</div>

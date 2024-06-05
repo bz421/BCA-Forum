@@ -4,13 +4,10 @@ const Thread = require('../models/Thread')
 const mongoose = require('mongoose')
 
 router.post('/create', async (req, res) => {
-    // const {title, name, categoryId} = req.body
-    // console.log('req: ' + req)
     const newThread = Thread({
         title: req.body.title,
         content: req.body.content,
         createdAt: Date.now(),
-        // author: req.body.name,
         classId: req.body.classId,
         userId: req.body.userId,
         name: req.body.name
