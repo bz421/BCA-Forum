@@ -17,6 +17,17 @@ router.post('/create', async (req, res) => {
     res.send(newClass)
 })  
 
+router.patch('/:id', async (req, res) => {
+    const updateObject = req.body
+    const id = req.params.id
+
+    const obj = await Class.findById(id)
+    console.log(obj.title)
+    const find = await Class.findByIdAndUpdate(id, updateObject)
+    res.sendStatus(200)
+
+})
+
 router.get('/:id', async (req, res) => {
     console.log("class id: " + req.params.id)
     const cLass = await Class.findById((req.params.id))

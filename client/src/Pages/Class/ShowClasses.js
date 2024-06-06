@@ -12,7 +12,6 @@ import 'katex/dist/katex.min.css'
 
 export default function ShowClass() {
     const { user, handleLogout } = useContext(AuthContext)
-    console.log(user)
     const navigate = useNavigate()
     const [cLass, setCLass] = useState(null)
     const [threads, setThreads] = useState([])

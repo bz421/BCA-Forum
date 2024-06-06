@@ -97,18 +97,18 @@ export default function ShowThread() {
 
             {(thread && (user._id === thread.userId)) && <p>You are the creator</p>}
 
-            {thread && <p style={{fontSize: "15pt"}}><Latex>{thread.content + ' '}</Latex></p>}
+            {thread && <p style={{fontSize: "1.1rem"}}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
                     <ListItem key={index}>
                         <ListItemText primary={
-                            <div style={{fontSize: "13pt"}}>
+                            <div style={{fontSize: "1.05rem"}}>
                                 <Latex>{post.content}</Latex>
                             </div>
 
                         }
                             secondary={
-                                <div>
+                                <div style={{fontSize: "0.8rem"}}>
                                     <div>By {post.name}</div>
                                     <div>Posted at: {post.createdAt}</div>
                                 </div>
