@@ -162,52 +162,45 @@ export default function ShowThread() {
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
-<<<<<<< Updated upstream
                     <div className={classes.postBody}>
-                        <ListItem key={index}>
-                            <ListItemText primary={
-                                <div style={{ fontSize: "1.05rem" }}>
-                                    <Latex>{post.content}</Latex>
+                        {(post.content).includes("java") ?
+                        (
+                            <ListItem key={index}>
+                                <ListItemText primary={
+                                <div style={{fontSize: "13pt"}}>-
+                                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                                        {post.content}
+                                    </SyntaxHighlighter>-
                                 </div>
-
                             }
                                 secondary={
-                                    <div style={{ fontSize: "0.8rem" }}>
+                                    <div>
                                         <div>By {post.name}</div>
-                                        <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
+                                        <div>Posted at: {post.createdAt}</div>
+                                    </div>
+                                } />
+                            </ListItem>
+                        )
+                        :
+                        (
+                        <ListItem key={index}>
+                            <ListItemText primary={
+                                <div style={{fontSize: "13pt"}}>
+                                    <Latex>{post.content}</Latex>
+                                </div>
+                            }
+                                secondary={
+                                    <div>
+                                        <div>By {post.name}</div>
+                                        <div>Posted at: {post.createdAt}</div>
                                     </div>
                                 } />
                         </ListItem>
+                        )}
+
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
-=======
-                    (post.content).includes("```java") ?
-                    (
-                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
-                        {post.content}
-                    </SyntaxHighlighter>
 
-                    )
-                    :
-                    (
-                    <ListItem key={index}>
-                        <ListItemText primary={
-                            <div style={{fontSize: "13pt"}}>-
-                                <Latex>{post.content}</Latex>-
-                            </div>
-                        }
-                            secondary={
-                                <div>
-                                    <div>By {post.name}</div>
-                                    <div>Posted at: {post.createdAt}</div>
-                                </div>
-                            } />
-                    </ListItem>
-                    )
-                    
-
-
->>>>>>> Stashed changes
                 ))}
             </List>
 
