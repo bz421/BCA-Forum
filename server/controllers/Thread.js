@@ -16,7 +16,7 @@ router.post('/create', async (req, res) => {
 
     await newThread.save()
     res.send(newThread)
-})  
+})
 
 router.get('/:id', async (req, res) => {
     console.log("Thread id: " + req.params.id)
@@ -32,8 +32,15 @@ router.get('/:id', async (req, res) => {
 })
 
 router.get('/class/:id', async (req, res) => {
-    const Threads = await Thread.find({classId: req.params.id})
+    const Threads = await Thread.find({ classId: req.params.id })
     res.send(Threads)
+})
+
+router.delete('/delete/:id', async (req, res) => {
+    const response = await Thread.findByIdAndDelete(req.params.id)
+    res.status(200).send({
+        message: `Deleted thread ${req.params.id}`
+    })
 })
 
 
