@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const Class = require('../models/Class')
 
 router.post('/create', async (req, res) => {
+    console.log(Date.now().toLocaleString())
     const newThread = Thread({
         title: req.body.title,
         content: req.body.content,
