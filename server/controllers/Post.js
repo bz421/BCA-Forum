@@ -24,5 +24,12 @@ router.get('/thread/:id', async (req, res) => {
     res.send(Posts)
 })
 
+router.delete('/delete/:id/', async (req, res) => {
+    const response = await Post.findByIdAndDelete(req.params.id)
+    res.status(200).send({
+        message: `Deleted post ${req.params.id}`
+    })
+})
+
 
 module.exports = router

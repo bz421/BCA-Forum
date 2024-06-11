@@ -10,6 +10,7 @@ import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TextField } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -28,8 +29,11 @@ const useStyles = makeStyles(theme => ({
         "100%": {
             color: 'black'
         },
-    }
+    },
 
+    postBody: {
+        display: "flex"
+    }
 }))
 
 export default function ShowThread() {
@@ -86,6 +90,11 @@ export default function ShowThread() {
         setReplyContent('')
     }
 
+    const handleDelete = async (pid) => {
+        const response = await axios.delete('/api/post/delete/' + pid)
+        window.location.reload()
+    }
+
     const navigate = useNavigate()
     // console.log(thread)
     // console.log(!thread)
@@ -97,33 +106,36 @@ export default function ShowThread() {
 
             {(thread && (user._id === thread.userId)) && <p>You are the creator</p>}
 
-            {thread && <p style={{fontSize: "15pt"}}><Latex>{thread.content + ' '}</Latex></p>}
+            {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
-                    <ListItem key={index}>
-                        <ListItemText primary={
-                            <div style={{fontSize: "13pt"}}>
-                                <Latex>{post.content}</Latex>
-                            </div>
-
-                        }
-                            secondary={
-                                <div>
-                                    <div>By {post.name}</div>
-                                    <div>Posted at: {post.createdAt}</div>
+                    <div className={classes.postBody}>
+                        <ListItem key={index}>
+                            <ListItemText primary={
+                                <div style={{ fontSize: "1.05rem" }}>
+                                    <Latex>{post.content}</Latex>
                                 </div>
-                            } />
-                    </ListItem>
+
+                            }
+                                secondary={
+                                    <div style={{ fontSize: "0.8rem" }}>
+                                        <div>By {post.name}</div>
+                                        <div>Posted at: {post.createdAt}</div>
+                                    </div>
+                                } />
+                        </ListItem>
+                        {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
+                    </div>
                 ))}
             </List>
 
             <Button variant="contained" color="primary" disabled={!hasMore} style={{ marginRight: "1rem" }} onClick={getPosts}>Load More</Button>
-            <Button variant="contained" color="primary" onClick={() => setIsReplying(true)}>Reply</Button>
+            <Button variant="contained" color="primary" disabled={isReplying} onClick={() => setIsReplying(true)}>Reply</Button>
             {isReplying && (
                 <form onSubmit={handleReply}>
                     <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} />
                     <Button type="submit">Post Reply</Button>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span> 
+                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
             )}
         </div>
