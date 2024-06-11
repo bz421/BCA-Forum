@@ -6,6 +6,8 @@ import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
+import { TextField } from '@material-ui/core'
+
 
 export default function BrowseCategories() {
     const [categories, setCategories] = useState([])
@@ -13,6 +15,12 @@ export default function BrowseCategories() {
     useEffect(() => {
         getCategories()
     }, [])
+
+    const [inputText, setInputText] = useState("");
+
+    const inputHandler = (e) => {
+      setInputText(e.target.value.toLowerCase());
+    };
 
     const getCategories = async () => {
         const response = await axios.get('/api/category/')
@@ -24,12 +32,26 @@ export default function BrowseCategories() {
         <div style={{ padding: "2rem" }}>
             <h1>Browse Categories</h1>
 
+            {/* <div>
+                    <h1>Search</h1>
+                    <div className="search">
+                    <TextField
+                        id="outlined-basic"
+                        onChange = {inputHandler}
+                        variant="outlined"
+                        fullwidth
+                        label="Search"/>
+                    </div>
+                    <BrowseCategories input={inputText}/>
+            </div> */}
+
             <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button>
 
             <Divider style={{ margin: "2rem 0" }} />
 
             <List>
                 {categories.map((cat, index) => (
+                    
                     <ListItem key={index} button onClick={() => navigate(`/category/${cat._id}`)}>
                         <ListItemText primary={
                             <span style={{fontSize: '1.1rem'}}>

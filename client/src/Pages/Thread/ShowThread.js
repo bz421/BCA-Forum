@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
@@ -12,6 +12,22 @@ import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { TextField } from '@material-ui/core'
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import python from 'highlight.js/lib/languages/python';
+import java from 'highlight.js/lib/languages/java';
+import cpp from 'highlight.js/lib/languages/cpp';
+import "highlight.js/styles/monokai.css";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("cpp", cpp);
+
+
 
 const useStyles = makeStyles(theme => ({
     latex: {
@@ -47,11 +63,20 @@ export default function ShowThread() {
     const [replyContent, setReplyContent] = useState('')
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
+    const codeRefs = useRef([])
 
     useEffect(() => {
         getThread()
         getPosts()
     }, [])
+
+    useEffect(() => {
+        posts.forEach((_, index) => {
+            if (codeRefs.current[index]) {
+                hljs.highlightBlock(codeRefs.current[index]);
+            }
+        });
+    }, [[posts]])
 
     const getThread = async () => {
         const response = await axios.get('/api/thread/' + id)
@@ -122,6 +147,12 @@ export default function ShowThread() {
     // console.log(!thread)
     // console.log(thread.content)
     // let cont = 'a' + thread.content + ' a'
+
+    // const codeRef = useRef(null);
+    // useEffect(() => {
+    //     hljs.highlightBlock(codeRef.current);
+    //   }, []);
+
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
@@ -132,20 +163,41 @@ export default function ShowThread() {
             <List>
                 {posts.map((post, index) => (
                     <div className={classes.postBody}>
-                        <ListItem key={index}>
-                            <ListItemText primary={
-                                <div style={{ fontSize: "1.05rem" }}>
-                                    <Latex>{post.content}</Latex>
-                                </div>
+                        {(post.content).includes("```java") ?
+                            (
+                                <ListItem key={index}>
+                                    <ListItemText primary={
+                                        <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                                            {post.content}
+                                        </SyntaxHighlighter>
 
-                            }
-                                secondary={
-                                    <div style={{ fontSize: "0.8rem" }}>
-                                        <div>By {post.name}</div>
-                                        <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
-                                    </div>
-                                } />
-                        </ListItem>
+                                    }
+                                        secondary={
+                                            <div style={{ fontSize: "0.8rem" }}>
+                                                <div>By {post.name}</div>
+                                                <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
+                                            </div>
+                                        } />
+                                </ListItem>
+
+                            )
+                            :
+                            (
+                                <ListItem key={index}>
+                                    <ListItemText primary={
+                                        <div style={{ fontSize: "1.05rem" }}>
+                                            <Latex>{post.content}</Latex>
+                                        </div>
+
+                                    }
+                                        secondary={
+                                            <div style={{ fontSize: "0.8rem" }}>
+                                                <div>By {post.name}</div>
+                                                <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
+                                            </div>
+                                        } />
+                                </ListItem>
+                            )}
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
                 ))}
@@ -156,8 +208,8 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
-                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '0.9rem', marginTop:"10px", resize:"none", fontFamily: "Roboto"}} onChange={e => setReplyContent(e.target.value)}></textarea>
-                    <Button type="submit" color="primary" variant="contained" style={{ margin: "15px"}}>Post Reply</Button>
+                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }} onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
             )}

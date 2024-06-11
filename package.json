@@ -4,8 +4,10 @@
     "@material-ui/icons": "^4.11.3",
     "aos": "^2.3.4",
     "create-react-app": "^1.2.1",
+    "highlight.js": "^11.9.0",
     "katex": "^0.16.10",
     "mongodb": "^6.6.2",
-    "react-latex-next": "^3.0.0"
+    "react-latex-next": "^3.0.0",
+    "react-syntax-highlighter": "^15.5.0"
   }
 }
