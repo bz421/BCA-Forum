@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
@@ -12,6 +12,22 @@ import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { TextField } from '@material-ui/core'
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import python from 'highlight.js/lib/languages/python';
+import java from 'highlight.js/lib/languages/java';
+import cpp from 'highlight.js/lib/languages/cpp';
+import "highlight.js/styles/monokai.css";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("cpp", cpp);
+
+
 
 const useStyles = makeStyles(theme => ({
     latex: {
@@ -47,11 +63,20 @@ export default function ShowThread() {
     const [replyContent, setReplyContent] = useState('')
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
+    const codeRefs = useRef([])
 
     useEffect(() => {
         getThread()
         getPosts()
     }, [])
+
+    useEffect(() => {
+        posts.forEach((_, index) => {
+            if (codeRefs.current[index]) {
+              hljs.highlightBlock(codeRefs.current[index]);
+            }
+          });    
+        }, [[posts]])
 
     const getThread = async () => {
         const response = await axios.get('/api/thread/' + id)
@@ -122,6 +147,12 @@ export default function ShowThread() {
     // console.log(!thread)
     // console.log(thread.content)
     // let cont = 'a' + thread.content + ' a'
+
+    // const codeRef = useRef(null);
+    // useEffect(() => {
+    //     hljs.highlightBlock(codeRef.current);
+    //   }, []);
+
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
@@ -131,6 +162,7 @@ export default function ShowThread() {
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
+<<<<<<< Updated upstream
                     <div className={classes.postBody}>
                         <ListItem key={index}>
                             <ListItemText primary={
@@ -148,6 +180,34 @@ export default function ShowThread() {
                         </ListItem>
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
+=======
+                    (post.content).includes("```java") ?
+                    (
+                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                        {post.content}
+                    </SyntaxHighlighter>
+
+                    )
+                    :
+                    (
+                    <ListItem key={index}>
+                        <ListItemText primary={
+                            <div style={{fontSize: "13pt"}}>-
+                                <Latex>{post.content}</Latex>-
+                            </div>
+                        }
+                            secondary={
+                                <div>
+                                    <div>By {post.name}</div>
+                                    <div>Posted at: {post.createdAt}</div>
+                                </div>
+                            } />
+                    </ListItem>
+                    )
+                    
+
+
+>>>>>>> Stashed changes
                 ))}
             </List>
 

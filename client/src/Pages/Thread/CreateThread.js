@@ -9,6 +9,8 @@ import AuthContext from '../../Contexts/AuthContext';
 import { makeStyles } from '@material-ui/core/styles';
 
 
+
+
 const useStyles = makeStyles(theme => ({
     latex: {
         animation: "$blink 1.25s infinite ease-in-out"
@@ -82,7 +84,12 @@ const CreateThread = () => {
                 <TextField label="Title" required fullWidth margin="normal" value={title} onChange={e => setTitle(e.target.value)} />
                 <textarea placeholder="Body" required value={content} style={{ width: '100%', height: '250px', fontSize: '0.9rem' }} onChange={e => setContent(e.target.value)}></textarea>
                 <Button type="submit" variant="contained" color="primary">Create</Button>
-                <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                <pre>
+                    <code>
+                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                    </code>
+                </pre>
+                
 
             </form>
         </div>
