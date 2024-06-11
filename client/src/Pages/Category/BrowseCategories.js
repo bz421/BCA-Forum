@@ -38,7 +38,7 @@ export default function BrowseCategories() {
                         } secondary={
                             <div>
                                 <div>Last Modified By: {cat.author}</div>
-                                <div>Modified At: {cat.createdAt}</div>
+                                <div>Modified At: {new Date(cat.createdAt).toLocaleString()}</div>
                             </div>
                         } />
                     </ListItem>

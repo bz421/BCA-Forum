@@ -44,7 +44,7 @@ export default function ShowCategory() {
                         secondary={
                             <div>
                                 <div>Last modified by: {cls.author}</div>
-                                <div>Last modified at: {cls.createdAt}</div>
+                                <div>Last modified at: {new Date(cls.createdAt).toLocaleString()}</div>
                             </div>
                         } />
                     </ListItem>

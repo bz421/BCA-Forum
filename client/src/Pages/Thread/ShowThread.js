@@ -142,7 +142,7 @@ export default function ShowThread() {
                                 secondary={
                                     <div style={{ fontSize: "0.8rem" }}>
                                         <div>By {post.name}</div>
-                                        <div>Posted at: {post.createdAt}</div>
+                                        <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
                                     </div>
                                 } />
                         </ListItem>

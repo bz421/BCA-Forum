@@ -65,7 +65,7 @@ export default function ShowClass() {
                                 secondary={
                                     <div>
                                         <div>Last Modified By: {thread.name}</div>
-                                        <div>Last Modified At: {thread.createdAt}</div>
+                                        <div>Last Modified At: {new Date(thread.createdAt).toLocaleString()}</div>
                                     </div>
                                 } />
                         </ListItem>
