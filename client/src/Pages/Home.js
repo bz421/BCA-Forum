@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+
 import '../home.css';
 import AuthContext from '../Contexts/AuthContext';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,9 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-// import BrowseCategories from './BrowseCategories'
-import Divider from '@material-ui/core/Divider'
-// import BrowseCategories from './BrowseCategories'
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -87,9 +85,6 @@ export default function Home() {
           )
       }
 
-
-      <h1>Home</h1>
-
       {/* <div>
                     <h1>Search</h1>
                     <div className="search">
@@ -103,8 +98,6 @@ export default function Home() {
                     <BrowseCategories input={inputText}/>
                 </div>
                 <Divider style={{ margin: "2rem 0" }} /> */}
-
-
     </div>
   )
 }
