@@ -60,11 +60,11 @@ export default function ShowClass() {
                     <div className={classes.threadBody}>
                         <ListItem key={index} button onClick={() => navigate(`/thread/${thread._id}`)}>
                             <ListItemText primary={
-                                <Latex>{thread.title}</Latex>
+                                <span style={{fontSize: "1.1rem"}}><Latex>{thread.title}</Latex></span>
                             }
                                 secondary={
                                     <div>
-                                        <div>Author: {thread.name}</div>
+                                        <div>Last Modified By: {thread.name}</div>
                                         <div>Last Modified At: {thread.createdAt}</div>
                                     </div>
                                 } />

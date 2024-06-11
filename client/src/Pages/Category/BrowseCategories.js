@@ -30,14 +30,18 @@ export default function BrowseCategories() {
 
             <List>
                 {categories.map((cat, index) => (
-                        <ListItem key={index} button onClick={() => navigate(`/category/${cat._id}`)}>
-                            <ListItemText primary={cat.title} secondary={
-                                <div>
-                                    <div>Last Modified By: {cat.author}</div>
-                                    <div>Modified At: {cat.createdAt}</div>
-                                </div>
-                            } />
-                        </ListItem>
+                    <ListItem key={index} button onClick={() => navigate(`/category/${cat._id}`)}>
+                        <ListItemText primary={
+                            <span style={{fontSize: '1.1rem'}}>
+                                {cat.title}
+                            </span>
+                        } secondary={
+                            <div>
+                                <div>Last Modified By: {cat.author}</div>
+                                <div>Modified At: {cat.createdAt}</div>
+                            </div>
+                        } />
+                    </ListItem>
                 ))}
             </List>
         </div>
