@@ -9,14 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
-<<<<<<< Updated upstream
 import { useNavigate } from 'react-router-dom';
-import {Link} from 'react-router-dom';
-=======
 import {Link} from 'react-router-dom';
 import Divider from '@material-ui/core/Divider'
 // import BrowseCategories from './BrowseCategories'
->>>>>>> Stashed changes
 
 export default function Home() {
     const { user } = useContext(AuthContext);
@@ -78,8 +74,6 @@ export default function Home() {
                 
                 )
             }
-<<<<<<< Updated upstream
-=======
             
             
                 <h1>Home</h1>
@@ -99,7 +93,6 @@ export default function Home() {
                 <Divider style={{ margin: "2rem 0" }} /> */}
             
   
->>>>>>> Stashed changes
         </div>
     )
 }
