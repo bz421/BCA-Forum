@@ -200,6 +200,7 @@ export default function ShowThread() {
                             )}
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
+
                 ))}
             </List>
 
