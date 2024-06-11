@@ -55,25 +55,25 @@ const CreateThread = () => {
         const { _id } = response.data
         const time = response.data.createdAt
 
-        const cls = await axios.get('/api/class/' + id)
-        setParentCls(cls.data)
+        const parentClass = await axios.get('/api/class/' + id).then(async (resCLS) => {
+            const res_cls = await axios.patch('/api/class/' + resCLS.data._id, {
+                createdAt: Date.now(),
+                author: user.name
+            })
+            const parentCat = await axios.get('/api/category/' + resCLS.data.categoryId).then(async (resCAT) => {
+                const res_cat = await axios.patch('/api/category/' + resCAT.data._id, {
+                    createdAt: Date.now(),
+                    author: user.name
+                })
+            })
 
-        const res_cls = await axios.patch('/api/class/' + id, {
-            createdAt: time
         })
-
-        // const cat = await axios.get('/api/category/' + cls.data.categoryId)
-        // setParentCat(cat.data)
-
-        // const res_cat = await axios.patch('/api/category/' + cat.data._id, {
-        //     createdAt: time
-        // })
-
+        
         navigate('/thread/' + _id)
     }
 
-    console.log(parentCls)
-    console.log(parentCat)
+    // console.log(parentCls)
+    // console.log(parentCat)
     return (
         <div style={{ padding: "2rem" }}>
             <h1 style={{ marginBottom: '2rem' }}>Create Thread</h1>

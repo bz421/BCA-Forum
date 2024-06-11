@@ -31,5 +31,14 @@ router.delete('/delete/:id/', async (req, res) => {
     })
 })
 
+router.patch('/:id', async (req, res) => {
+    const updateObject = req.body
+    const id = req.params.id
+
+    const find = await Post.findByIdAndUpdate(id, updateObject)
+    res.sendStatus(200)
+
+})
+
 
 module.exports = router

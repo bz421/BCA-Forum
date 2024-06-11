@@ -21,8 +21,6 @@ router.patch('/:id', async (req, res) => {
     const updateObject = req.body
     const id = req.params.id
 
-    const obj = await Class.findById(id)
-    console.log(obj.title)
     const find = await Class.findByIdAndUpdate(id, updateObject)
     res.sendStatus(200)
 

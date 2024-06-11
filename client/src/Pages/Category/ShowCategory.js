@@ -38,10 +38,13 @@ export default function ShowCategory() {
             <List>
                 {classes.map((cls, index) => (
                     <ListItem button onClick={() => navigate(`/class/${cls._id}`)}>
-                        <ListItemText primary={cls.title} secondary={
+                        <ListItemText primary={
+                            <span style={{fontSize: "1.1rem"}}>{cls.title}</span>
+                        } 
+                        secondary={
                             <div>
-                                <div>Author: {cls.author}</div>
-                                <div>Created at: {cls.createdAt}</div>
+                                <div>Last modified by: {cls.author}</div>
+                                <div>Last modified at: {cls.createdAt}</div>
                             </div>
                         } />
                     </ListItem>

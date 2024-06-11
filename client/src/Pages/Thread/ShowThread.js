@@ -88,6 +88,28 @@ export default function ShowThread() {
         setPosts([...posts, response.data])
         setIsReplying(false)
         setReplyContent('')
+
+        const parentThread = await axios.get('/api/thread/' + thread._id).then(async (resTHR) => {
+            const res_thr = await axios.patch('/api/thread/' + resTHR.data._id, {
+                createdAt: Date.now(),
+                name: user.name
+            })
+            const parentClass = await axios.get('/api/class/' + resTHR.data.classId).then(async (resCLS) => {
+                const res_cls = await axios.patch('/api/class/' + resCLS.data._id, {
+                    createdAt: Date.now(),
+                    author: user.name
+                })
+                const parentCat = await axios.get('/api/category/' + resCLS.data.categoryId).then(async (resCAT) => {
+                    const res_cat = await axios.patch('/api/category/' + resCAT.data._id, {
+                        createdAt: Date.now(),
+                        author: user.name
+                    })
+                })
+
+            })
+        })
+
+
     }
 
     const handleDelete = async (pid) => {
@@ -134,8 +156,8 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} />
-                    <Button type="submit" color="primary" variant="contained" style={{margin:"15px"}}>Post Reply</Button>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span> 
+                    <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
+                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
             )}
         </div>
