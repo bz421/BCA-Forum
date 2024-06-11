@@ -93,7 +93,7 @@ export default function MenuAppBar() {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
+                                    <MenuItem onClick={() => navigate('/profile/' + user._id)}>Profile</MenuItem>
                                     <MenuItem onClick={logout}>Logout</MenuItem>
                                     
                                 </Menu>

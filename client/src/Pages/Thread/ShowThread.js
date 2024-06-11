@@ -134,8 +134,8 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} />
-                    <Button type="submit">Post Reply</Button>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                    <Button type="submit" color="primary" variant="contained" style={{margin:"15px"}}>Post Reply</Button>
+                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span> 
                 </form>
             )}
         </div>

@@ -70,7 +70,7 @@ function App() {
                 <Route path="/thread/:id" element={user ? <ShowThread /> : <Navigate to="/auth/login" />} />
                 {/* <Route path="/thread/" element={user ? <BrowseThreads /> : <Navigate to="/auth/login" />} /> */}
 
-                <Route path="/profile/" element={user ? <Profile /> : <Navigate to="/auth/login"/>} />
+                <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to="/auth/login"/>} />
               </Routes>
             </Fragment>
           </Router>

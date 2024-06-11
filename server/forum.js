@@ -24,6 +24,7 @@ app.use('/api/category/', require('./controllers/Category'))
 app.use('/api/class/', require('./controllers/Class'))
 app.use('/api/thread/', require('./controllers/Thread'))
 app.use('/api/post/', require('./controllers/Post'))
+app.use('/api/profile/', require('./controllers/Profile'))
 
 
 app.get('*', (req, res) => {
