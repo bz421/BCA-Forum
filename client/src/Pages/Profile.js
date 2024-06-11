@@ -43,58 +43,6 @@ export default function Profile() {
         console.log(typeof(info.threads))
         console.log(typeof(info.posts))
     }
-    
-    
-    // function isJsonString(str) {
-    //     try {
-    //         JSON.parse(str);
-    //     } catch (e) {
-    //         return false;
-    //     }
-    //     return true;
-    // }
-    // let str = info.threads;
-    // console.log(info);
-    // // console.log(typeof(str));
-    // if(typeof(str) === 'string') {
-    //     console.log(str);
-    //     // let jso = str.split(/(},)/);
-    //     // for(let i = 0; i < jso.length; i++) {
-    //     //     if(jso[i] === "},") {
-    //     //         jso.splice(jso.indexOf("},"));
-    //     //         i--;
-    //     //     }
-    //     //     else {
-    //     //         jso[i] += "}";
-    //     //     }
-    //     //     console.log(jso);
-    //     // }
-    //     str = str.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
-    //     // console.log(isJsonString(correctJson));
-    //     // console.log(correctJson);
-    //     // let corectJason = JSON.stringify(str);
-    //     // for(let i = 0; i < corectJason.length; i++) {
-    //     //     console.log(corectJason);
-    //     // }
-        
-    //     str = str.replace(/new ObjectId\('([^']+)'\)/g, '"$1"');
-
-    //     // Step 2: Surround the string with square brackets to make it a JSON array
-    //     str = `[${str}]`;
-
-    //     // Step 3: Parse the string into a JavaScript array
-    //     console.log(str);
-    //     let arr = JSON.parse(str);
-
-    //     console.log(arr);
-
-    //     // console.log(str);
-        
-    //     // console.log(jso);
-    // }
-    // // let threa = info.threads.split(",");
-    
-    // // console.log(isJsonString(threa[0]));
     return (
         
         <div style={{padding: "2rem"}}>
@@ -151,41 +99,7 @@ export default function Profile() {
                             </div>
                         )
                         }
-            {/* <List>
-                {info.threads.map((thread, index) => (
-                    <ListItem key={index} button onClick={() => navigate(`/thread/${thread._id}`)}>
-                        <ListItemText primary={
-                            <Latex>{thread.title}</Latex>
-                        } 
-                        secondary={
-                            <div>
-                                <div>Author: {thread.name}</div>
-                                <div>Created at: {thread.createdAt}</div>
-                            </div>
-                        } />
-                    </ListItem>
-                ))}
-            </List> */}
-
             
-            {/* <List>
-                {posts.map((post, index) => (
-                    <ListItem key={index}>
-                        <ListItemText primary={
-                            <div style={{fontSize: "13pt"}}>
-                                <Latex>{post.content}</Latex>
-                            </div>
-
-                        }
-                            secondary={
-                                <div>
-                                    <div>By {post.name}</div>
-                                    <div>Posted at: {post.createdAt}</div>
-                                </div>
-                            } />
-                    </ListItem>
-                ))}
-            </List> */}
             </div>
             
 
