@@ -19,6 +19,9 @@ import ShowClasses from './Pages/Class/ShowClasses'
 
 import CreateThread from './Pages/Thread/CreateThread'
 import ShowThread from './Pages/Thread/ShowThread'
+import EditThread from './Pages/Thread/EditThread'
+
+import EditPost from './Pages/Post/EditPost'
 
 import Profile from './Pages/Profile'
 
@@ -68,7 +71,11 @@ function App() {
 
                 <Route path="/thread/create/:id" element={user ? <CreateThread /> : <Navigate to="/auth/login" />} />
                 <Route path="/thread/:id" element={user ? <ShowThread /> : <Navigate to="/auth/login" />} />
+                <Route path="/thread/edit/:id" element={user ? <EditThread /> : <Navigate to="/auth/login" />} />
                 {/* <Route path="/thread/" element={user ? <BrowseThreads /> : <Navigate to="/auth/login" />} /> */}
+
+                <Route path="/post/edit/:id" element={user ? <EditPost /> : <Navigate to="/auth/login" />} />
+
 
                 <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to="/auth/login"/>} />
               </Routes>

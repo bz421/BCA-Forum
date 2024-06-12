@@ -6,6 +6,7 @@ import axios from 'axios'
 import List from '@material-ui/core/List'
 import Icon from "@material-ui/core/Icon"
 import ListItemText from '@material-ui/core/ListItemText'
+import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem'
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -69,6 +70,7 @@ export default function ShowClass() {
                                     </div>
                                 } />
                         </ListItem>
+                        {(thread && (user._id === thread.userId)) && <Button onClick={() => navigate(`/thread/edit/${thread._id}`)}><EditIcon /></Button>}
                         {(thread && (user._id === thread.userId)) && <Button onClick={() => handleDelete(thread._id)}><DeleteIcon /></Button>}
                     </div>
                 ))}
