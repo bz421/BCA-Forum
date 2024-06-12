@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Class = require('../models/Class')
+const User = require('../models/User')
 const mongoose = require('mongoose')
 
 router.post('/create', async (req, res) => {
@@ -37,6 +38,13 @@ router.get('/:id', async (req, res) => {
     }
 
     res.send(cLass)
+})
+
+router.patch('/heart/:id', async (req, res) => {
+    
+})
+router.patch('/unheart/:id', async (req, res) => {
+    
 })
 
 router.get('/category/:id', async (req, res) => {

@@ -102,9 +102,13 @@ export default function ShowThread() {
     const handleReply = async e => {
         e.preventDefault()
         if (!replyContent) return
+
+        const cleanedContent = replyContent.replace(/<[^>]+>/g, '')
+
+
         const data = {
             threadId: thread._id,
-            content: replyContent,
+            content: cleanedContent,
             userId: user._id,
             name: user.name
         }
