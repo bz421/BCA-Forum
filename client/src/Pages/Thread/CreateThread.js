@@ -44,10 +44,12 @@ const CreateThread = () => {
     const handleOnSubmit = async e => {
         e.preventDefault()
         const name = user.name
+        const cleanedTitle = title.replace(/<[^>]+>/g, '')
+        const cleanedContent = content.replace(/<[^>]+>/g, '')
 
         const data = {
-            title,
-            content,
+            title: cleanedTitle,
+            content: cleanedContent,
             userId: user._id,
             classId: id,
             name

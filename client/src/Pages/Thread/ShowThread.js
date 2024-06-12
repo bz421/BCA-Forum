@@ -102,9 +102,13 @@ export default function ShowThread() {
     const handleReply = async e => {
         e.preventDefault()
         if (!replyContent) return
+
+        const cleanedContent = replyContent.replace(/<[^>]+>/g, '')
+
+
         const data = {
             threadId: thread._id,
-            content: replyContent,
+            content: cleanedContent,
             userId: user._id,
             name: user.name
         }
@@ -157,7 +161,27 @@ export default function ShowThread() {
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
 
-            {(thread && (user._id === thread.userId)) && <p>You are the creator</p>}
+            {/* {(thread && (user._id === thread.userId)) && <p>You are the creator</p>} */}
+
+            {/* {(thread && (user))} */}
+            {(thread && (user._id === thread.userId)) ?
+                (
+                    <div>
+                        <p>You are the creator</p>
+                    </div>
+                )
+                :
+                (
+                    <div>
+                        
+                        <p style={{fontSize:"0.9rem"}}>By {thread.name}</p>
+                        
+                    </div>
+                    
+                    
+                )
+            }
+
 
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>

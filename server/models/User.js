@@ -6,7 +6,8 @@ const UserSchema = new schema({
     name: String,
     email: String,
     password: String,
-    createdAt: Date
+    createdAt: Date,
+    heartedClasses: [{classId: mongoose.Types.ObjectId, className: String}]
 })
 
 // UserSchema.pre('save', async function(next){
