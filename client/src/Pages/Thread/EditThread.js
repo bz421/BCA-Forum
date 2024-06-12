@@ -9,8 +9,6 @@ import AuthContext from '../../Contexts/AuthContext';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-
-
 const useStyles = makeStyles(theme => ({
     latex: {
         animation: "$blink 1.25s infinite ease-in-out"
@@ -31,33 +29,44 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const CreateThread = () => {
+const EditThread = () => {
     const classes = useStyles()
     const { user, handleLogout } = useContext(AuthContext)
     const { id } = useParams()
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [thread, setThread] = useState(null)
+
+    useEffect(() => {
+        getThread()
+    }, [])
+
+    const getThread = async () => {
+        console.log('Getting thread')
+        const response = await axios.get('/api/thread/' + id).then((res) => {
+            setThread(res.data)
+            setTitle(res.data.title)
+        })
+    }
 
     const handleOnSubmit = async e => {
         e.preventDefault()
-        const name = user.name
         const cleanedTitle = title.replace(/<[^>]+>/g, '')
         const cleanedContent = content.replace(/<[^>]+>/g, '')
+        const response = await axios.get('/api/thread/' + id)
 
         const data = {
             title: cleanedTitle,
             content: cleanedContent,
+            createdAt: Date.now(),
             userId: user._id,
-            classId: id,
-            name
+            name: user.name
         }
 
-        const response = await axios.post('/api/thread/create', data)
-        const { _id } = response.data
-        const time = response.data.createdAt
+        const res_thr = await axios.patch('/api/thread/' + id, data)
 
-        const parentClass = await axios.get('/api/class/' + id).then(async (resCLS) => {
+        const parentClass = await axios.get('/api/class/' + response.data.classId).then(async (resCLS) => {
             const res_cls = await axios.patch('/api/class/' + resCLS.data._id, {
                 createdAt: Date.now(),
                 author: user.name
@@ -70,30 +79,30 @@ const CreateThread = () => {
             })
 
         })
-        
-        navigate('/thread/' + _id)
+
+        navigate('/class/' + response.data.classId  )
     }
 
     // console.log(parentCls)
     // console.log(parentCat)
     return (
         <div style={{ padding: "2rem" }}>
-            <h1 style={{ marginBottom: '2rem' }}>Create Thread</h1>
+            <h1 style={{ marginBottom: '2rem' }}>{`Edit Thread "${thread && thread.title}"`}</h1>
 
             <form onSubmit={handleOnSubmit}>
-                <TextField label="Title" required fullWidth margin="normal" value={title} onChange={e => setTitle(e.target.value)} />
-                <textarea placeholder="Body" required value={content} style={{ width: '100%', height: '20vh', resize:"none", fontSize: '1.05rem', fontFamily: "Roboto"}} onChange={e => setContent(e.target.value)}></textarea>
-                <Button type="submit" variant="contained" color="primary">Create</Button>
+                <TextField label="Title" key="2" required fullWidth margin="normal" value={title} onChange={e => setTitle(e.target.value)} />
+                <textarea placeholder="Body" required defaultValue={thread && thread.content} style={{ width: '100%', height: '20vh', resize: "none", fontSize: '1.05rem', fontFamily: "Roboto" }} onChange={e => setContent(e.target.value)}></textarea>
+                <Button type="submit" variant="contained" color="primary">Edit</Button>
                 <pre>
                     <code>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                        <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                     </code>
                 </pre>
-                
+
 
             </form>
         </div>
     )
 }
 
-export default CreateThread
+export default EditThread
