@@ -21,7 +21,9 @@ import "highlight.js/styles/monokai.css";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useQuill } from 'react-quilljs';
-import 'quill/dist/quill.snow.css';
+import Quill from 'quill';
+
+import QuillEditor from "react-quill";
 
 
 hljs.registerLanguage("javascript", javascript);
@@ -62,11 +64,10 @@ export default function ShowThread() {
     const [page, setPage] = useState(1)
     const [hasMore, setHasMore] = useState(false)
     const [isReplying, setIsReplying] = useState(false)
-    const [replyContent, setReplyContent] = useState('')
+    const [replyContent, setReplyContent] = useState("")
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
     const codeRefs = useRef([])
-    const { quill, quillRef } = useQuill();
 
 
     useEffect(() => {
@@ -197,6 +198,10 @@ export default function ShowThread() {
         }
     }
 
+    const { quill, quillRef } = useQuill();
+
+    //const quill = new Quill('#editor');
+
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
@@ -208,32 +213,12 @@ export default function ShowThread() {
                 {posts.map((post, index) => (
 
                     <div className={classes.postBody}>
-                        {(post.content).includes("java") ?
-                        (
-                            <ListItem key={index}>
-                                <ListItemText primary={
-                                <div style={{fontSize: "13pt"}}>-
-                                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
-                                        {post.content}
-                                    </SyntaxHighlighter>-
-                                </div>
-                            }
-                                secondary={
-                                    <div>
-                                        <div>By {post.name}</div>
-                                        <div>Posted at: {post.createdAt}</div>
-                                    </div>
-                                } />
-                            </ListItem>
-                        )
-                        :
-                        (
                         <ListItem key={index}>
                             <ListItemText primary={
-                                <div style={{fontSize: "13pt"}}>
-                                    <Latex>{post.content}</Latex>
+                                <div style={{fontSize: "1.05rem"}}>
+                                    {primaryContent(post)}
                                 </div>
-                            }
+                                }
                                 secondary={
                                     <div>
                                         <div>By {post.name}</div>
@@ -241,8 +226,7 @@ export default function ShowThread() {
                                     </div>
                                 } />
                         </ListItem>
-                        )}
-
+                        
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
 
@@ -254,7 +238,22 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
-                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }} onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <textarea
+                        required
+                        ref={quillRef}
+                        placeholder="Body"
+                        value={replyContent}
+                        style={{
+                            width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }}
+                        onChange={e => setReplyContent(e.target.value)}
+                        id="editor"
+                    ></textarea>
+                    <div
+                        ref={quillRef}
+                        label="Reply" value={replyContent}
+                        onChange={e => setReplyContent(e.target.value)}
+                        />
+
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
