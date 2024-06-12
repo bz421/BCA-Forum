@@ -49,6 +49,9 @@ export default function ShowCategory() {
     return (
         <div style={{padding: "2rem"}}>
             {category && <h1>{category.title}</h1>}
+            <Button variant="contained" color="primary" onClick={() => navigate('/class/create/' + id)}>Create Class</Button>
+
+            <Divider style={{ margin: "2rem 0" }} />
 
             <List>
                 {classes.map((cls, index) => (
@@ -69,7 +72,6 @@ export default function ShowCategory() {
                     </div>
                     
                 ))}
-                <Button variant="contained" color="primary" onClick={() => navigate('/class/create/'+id)}>Create Class</Button>
 
             </List>
 
