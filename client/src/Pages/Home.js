@@ -69,6 +69,7 @@ export default function Home() {
                             
                         </div>
                     </div>
+                    // Add some duckhearts down here for fun
                 )
                 :
                 (
@@ -123,7 +124,7 @@ export default function Home() {
                                 <h2>Users can select which class they're in and post threads for that class there. <br /> They can also see threads other students have created.</h2>
                             </div>
                             <div class="mockText" data-aos="fade-left">
-                                <h2>Threads can be replied to by other users. <br /><br /> BCA Forum supports <Latex>$Latex$</Latex> formatting, among various other text formatting features.</h2>
+                                <h2>Threads can be replied to by other users. <br /><br /> BCA Forum supports <Latex>$LaTeX$</Latex> formatting, among various other text formatting features.</h2>
                                 
                             </div>
                             <div class="mockPic" data-aos="fade-left">
