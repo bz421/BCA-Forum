@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Divider from '@material-ui/core/Divider'
+// import BrowseCategories from './BrowseCategories'
 
 export default function Home() {
   const { user } = useContext(AuthContext);

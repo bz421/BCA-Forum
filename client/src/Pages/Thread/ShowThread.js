@@ -167,7 +167,7 @@ export default function ShowThread() {
                             (
                                 <ListItem key={index}>
                                     <ListItemText primary={
-                                        <div style={{fontSize: "1.05rem"}}>
+                                        <div style={{ fontSize: "1.05rem" }}>
                                             <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
                                                 {post.content}
                                             </SyntaxHighlighter>
