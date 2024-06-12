@@ -1,9 +1,20 @@
-.regLog {
-    margin-left: 50px;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+/* .regLog {
+    margin-left: 20%;
     width: 45%;
     background-color: #3F51B5 !important;
     margin: 20px !important;
     color: white !important;
+} */
+#buttonCenter {
+    display: flex;
+    justify-content: center;
+}
+#buttonCenter > * {
+    background-color: #3F51B5 !important;
+    margin: 20px !important;
+    color: white !important;
+    width: 35%;
 }
 .regLog:hover {
     /* width: 50%; */
@@ -13,6 +24,53 @@
     display: flex;
     justify-content: space-around;
 }
-#loggedInBtns > * {
+/* #loggedInBtns > * {
     width: 45%;
+} */
+Button {
+
+}
+/* body {
+
+} */
+html {
+    /* background-image: url("./duckheart.png"); */
+    /* background-image: url(./Pages/duckheart.png); */
+    background-repeat: space !important;
+    /* client\src\Pages\duckheart.png */
+    overflow-x: hidden;
+}
+.mainCard {
+    margin:20px;
+    background-color: rgb(244, 244, 244);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.mockText, .mockPic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Open Sans';
+}
+#lateL {
+    width: 30vw;
+}
+#catMock {
+    width: 20vw;
+}
+#clsMock {
+    width: 30vw;
+}
+#thrMock {
+    width: 40vw;
+}
+#info {
+    display: grid;
+    row-gap: 10vh;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(4, 25%);
+    margin-top: 10vh;
 }
