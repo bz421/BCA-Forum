@@ -33,5 +33,14 @@ router.get('/', async (req, res) => {
     res.send(cats)
 })
 
+router.patch('/:id', async (req, res) => {
+    const updateObject = req.body
+    const id = req.params.id
+
+    const find = await Category.findByIdAndUpdate(id, updateObject)
+    res.sendStatus(200)
+
+})
+
 
 module.exports = router

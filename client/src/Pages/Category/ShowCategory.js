@@ -7,12 +7,15 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
 
-export default function BrowseCategories() {
-    const [category, setCategory] = useState([])
+export default function ShowCategory() {
+    const navigate = useNavigate()
     const {id} = useParams()
+    const [category, setCategory] = useState(null)
+    const [classes, setClasses] = useState([])
 
     useEffect(() => {
         getCategory()
+        getClasses()
     }, [])
 
     const getCategory = async () => {
@@ -21,11 +24,32 @@ export default function BrowseCategories() {
         setCategory(response.data)
     }
 
-    const navigate = useNavigate()
+    const getClasses = async () => {
+        const response = await axios.get('/api/class/category/'+id)
+        setClasses(response.data)
+    }
+
     return (
         <div style={{padding: "2rem"}}>
             {category && <h1>{category.title}</h1>}
 
+            <Button variant="contained" color="primary" onClick={() => navigate('/class/create/'+id)}>Create Class</Button>
+
+            <List>
+                {classes.map((cls, index) => (
+                    <ListItem button onClick={() => navigate(`/class/${cls._id}`)}>
+                        <ListItemText primary={
+                            <span style={{fontSize: "1.1rem"}}>{cls.title}</span>
+                        } 
+                        secondary={
+                            <div>
+                                <div>Last modified by: {cls.author}</div>
+                                <div>Last modified at: {new Date(cls.createdAt).toLocaleString()}</div>
+                            </div>
+                        } />
+                    </ListItem>
+                ))}
+            </List>
         </div>
 
     )

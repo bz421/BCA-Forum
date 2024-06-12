@@ -8,8 +8,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
-import { useNavigate } from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import Profile from '../Pages/Profile';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function MenuAppBar() {
     const classes = useStyles()
     const navigate = useNavigate()
-    const { user, handleLogout } = useContext(AuthContext)
+    const { user, handleLogout } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const logout = () => {
@@ -78,6 +79,7 @@ export default function MenuAppBar() {
                                 >
                                     {user.name}
                                 </Button>
+                                
                                 <Menu
                                     anchorEl={anchorEl}
                                     anchorOrigin={{
@@ -91,9 +93,12 @@ export default function MenuAppBar() {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
+                                    <MenuItem onClick={() => navigate('/profile/' + user._id)}>Profile</MenuItem>
                                     <MenuItem onClick={logout}>Logout</MenuItem>
+                                    
                                 </Menu>
                             </div>
+                            
                         )
                         :
                         (

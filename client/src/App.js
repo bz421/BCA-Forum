@@ -1,5 +1,4 @@
 import { Fragment } from 'react'
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react'
 import AuthContext from './Contexts/AuthContext'
@@ -10,9 +9,18 @@ import Navbar from './Components/Navbar'
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import Home from './Pages/Home'
+
 import CreateCategory from './Pages/Category/CreateCategory'
 import BrowseCategories from './Pages/Category/BrowseCategories'
 import ShowCategory from './Pages/Category/ShowCategory'
+
+import CreateClass from './Pages/Class/CreateClass'
+import ShowClasses from './Pages/Class/ShowClasses'
+
+import CreateThread from './Pages/Thread/CreateThread'
+import ShowThread from './Pages/Thread/ShowThread'
+
+import Profile from './Pages/Profile'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -49,10 +57,20 @@ function App() {
                 <Route path="/" exact element={<Home />} />
                 <Route path="/auth/login" element={!user ? <Login /> : <Navigate to="/" />} />
                 <Route path="/auth/register" element={!user ? <Register /> : <Navigate to="/" />} />
+
                 <Route path="/category/create" element={user ? <CreateCategory /> : <Navigate to="/auth/login" />} />
                 <Route path="/category/:id" element={user ? <ShowCategory /> : <Navigate to="/auth/login" />} />
                 <Route path="/category/" element={user ? <BrowseCategories /> : <Navigate to="/auth/login" />} />
 
+                <Route path="/class/create/:id" element={user ? <CreateClass /> : <Navigate to="/auth/login" />} />
+                <Route path="/class/:id" element={user ? <ShowClasses /> : <Navigate to="/auth/login" />} />
+                {/* <Route path="/class/" element={user ? <BrowseClasses /> : <Navigate to="/auth/login" />} /> */}
+
+                <Route path="/thread/create/:id" element={user ? <CreateThread /> : <Navigate to="/auth/login" />} />
+                <Route path="/thread/:id" element={user ? <ShowThread /> : <Navigate to="/auth/login" />} />
+                {/* <Route path="/thread/" element={user ? <BrowseThreads /> : <Navigate to="/auth/login" />} /> */}
+
+                <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to="/auth/login"/>} />
               </Routes>
             </Fragment>
           </Router>
