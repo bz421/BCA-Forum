@@ -20,6 +20,8 @@ import cpp from 'highlight.js/lib/languages/cpp';
 import "highlight.js/styles/monokai.css";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 
 
 hljs.registerLanguage("javascript", javascript);
@@ -64,6 +66,8 @@ export default function ShowThread() {
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
     const codeRefs = useRef([])
+    const { quill, quillRef } = useQuill();
+
 
     useEffect(() => {
         getThread()
@@ -153,6 +157,46 @@ export default function ShowThread() {
     //     hljs.highlightBlock(codeRef.current);
     //   }, []);
 
+    // const format = (post) => {
+    //     return (
+    //         (post.content).replaceAll("\\*(.*?)\\*", "<i>$1</i>")
+    //     )
+    // }
+
+    const primaryContent = (post) => {
+        if(((post.content).substring(0,13)) === ("```javascript")) {
+            return (
+                <SyntaxHighlighter language="javascript" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(13)}
+                </SyntaxHighlighter>
+            );
+        } else if(((post.content).substring(0,7)) === ("```java")) {
+            return (
+                
+                <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(7)}
+                </SyntaxHighlighter>
+                
+            );
+        } else if(((post.content).substring(0,6)) === ("```cpp")) {
+            return (
+                <SyntaxHighlighter language="cpp" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(6)}
+                </SyntaxHighlighter>
+            );
+        }  else if(((post.content).substring(0,9)) === ("```python")) {
+            return (
+                <SyntaxHighlighter language="python" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(9)}
+                </SyntaxHighlighter>
+            );
+        } else {
+            return (
+                <Latex>{post.content}</Latex>
+            )
+        }
+    }
+
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
@@ -162,33 +206,14 @@ export default function ShowThread() {
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
+
                     <div className={classes.postBody}>
-                        {(post.content).includes("java") ?
-                        (
-                            <ListItem key={index}>
-                                <ListItemText primary={
-                                <div style={{fontSize: "13pt"}}>-
-                                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
-                                        {post.content}
-                                    </SyntaxHighlighter>-
-                                </div>
-                            }
-                                secondary={
-                                    <div>
-                                        <div>By {post.name}</div>
-                                        <div>Posted at: {post.createdAt}</div>
-                                    </div>
-                                } />
-                            </ListItem>
-                        )
-                        :
-                        (
                         <ListItem key={index}>
                             <ListItemText primary={
-                                <div style={{fontSize: "13pt"}}>
-                                    <Latex>{post.content}</Latex>
+                                <div style={{fontSize: "13pt"}} ref={quillRef}>
+                                    {primaryContent(post)}
                                 </div>
-                            }
+                                }
                                 secondary={
                                     <div>
                                         <div>By {post.name}</div>
@@ -196,7 +221,6 @@ export default function ShowThread() {
                                     </div>
                                 } />
                         </ListItem>
-                        )}
 
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>

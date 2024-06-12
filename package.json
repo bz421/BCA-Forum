@@ -6,7 +6,9 @@
     "highlight.js": "^11.9.0",
     "katex": "^0.16.10",
     "mongodb": "^6.6.2",
+    "quill": "^2.0.2",
     "react-latex-next": "^3.0.0",
+    "react-quilljs": "^2.0.0",
     "react-syntax-highlighter": "^15.5.0"
   }
 }
