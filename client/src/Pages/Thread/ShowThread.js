@@ -155,8 +155,9 @@ export default function ShowThread() {
             <Button variant="contained" color="primary" disabled={isReplying} onClick={() => setIsReplying(true)}>Reply</Button>
             {isReplying && (
                 <form onSubmit={handleReply}>
-                    <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} />
-                    <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
+                    {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
+                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '0.9rem', marginTop:"10px", resize:"none", fontFamily: "Roboto"}} onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <Button type="submit" color="primary" variant="contained" style={{ margin: "15px"}}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
             )}
