@@ -10,8 +10,7 @@ import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TextField } from '@material-ui/core'
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -21,6 +20,10 @@ import cpp from 'highlight.js/lib/languages/cpp';
 import "highlight.js/styles/monokai.css";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useQuill } from 'react-quilljs';
+import Quill from 'quill';
+
+import QuillEditor from "react-quill";
 
 
 hljs.registerLanguage("javascript", javascript);
@@ -61,10 +64,11 @@ export default function ShowThread() {
     const [page, setPage] = useState(1)
     const [hasMore, setHasMore] = useState(false)
     const [isReplying, setIsReplying] = useState(false)
-    const [replyContent, setReplyContent] = useState('')
+    const [replyContent, setReplyContent] = useState("")
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
     const codeRefs = useRef([])
+
 
     useEffect(() => {
         getThread()
@@ -103,13 +107,9 @@ export default function ShowThread() {
     const handleReply = async e => {
         e.preventDefault()
         if (!replyContent) return
-
-        const cleanedContent = replyContent.replace(/<[^>]+>/g, '')
-
-
         const data = {
             threadId: thread._id,
-            content: cleanedContent,
+            content: replyContent,
             userId: user._id,
             name: user.name
         }
@@ -148,84 +148,79 @@ export default function ShowThread() {
     }
 
     const navigate = useNavigate()
-    // console.log(thread)
-    // console.log(!thread)
-    // console.log(thread.content)
-    // let cont = 'a' + thread.content + ' a'
 
-    // const codeRef = useRef(null);
-    // useEffect(() => {
-    //     hljs.highlightBlock(codeRef.current);
-    //   }, []);
+    const formatting = (text) => {
+        const bold = /\*\*(.*?)\*\*/g
+        const italic = /\*(.*?)\*/g
+        const underline = /\_\_(.*?)\_\_/g;
+
+        text = text.replace(bold, (match, str) => `<b>${str}</b>`)
+        text = text.replace(italic, (match, str) => `<i>${str}</i>`)
+        text = text.replace(underline, (match, str) => `<u>${str}</u>`)
+        
+        return text
+    }   
+
+    const firstIndex = (content, language) => {
+        let whitespace= new Set([" ", "\t", "\n"])
+        for(let i = 3+language.length; i< content.length; i++){
+            if(!whitespace.has(content[i])){
+                return i
+            }
+        }
+    }
+
+    const primaryContent = (post) => {
+        const regex = /\$/;
+        if((post.content).substring(0, 3) === "```"){
+            const language = (post.content).substring(3,(post.content).indexOf('\n'))
+            return (
+                <SyntaxHighlighter language={language} style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(firstIndex((post.content), language))}
+                </SyntaxHighlighter>
+            );
+        } else if(regex.test(post.content)) {
+            return (
+                <Latex>
+                    {post.content}
+                </Latex>
+            );
+        } else {
+            return (
+                <div dangerouslySetInnerHTML={ { __html : formatting(post.content)}} />
+            );
+        }
+    }
+
+    const { quill, quillRef } = useQuill();
+
+    //const quill = new Quill('#editor');
 
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
 
-            {/* {(thread && (user._id === thread.userId)) && <p>You are the creator</p>} */}
-
-            {/* {(thread && (user))} */}
-            {(thread && (user._id === thread.userId)) ?
-                (
-                    <div>
-                        <p>You are the creator</p>
-                    </div>
-                )
-                :
-                (
-                    <div>
-                        
-                        <p style={{fontSize:"0.9rem"}}>By {thread.name}</p>
-                        
-                    </div>
-                    
-                    
-                )
-            }
-
+            {(thread && (user._id === thread.userId)) && <p>You are the creator</p>}
 
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
             <List>
                 {posts.map((post, index) => (
+
                     <div className={classes.postBody}>
-                        {(post.content).includes("```java") ?
-                            (
-                                <ListItem key={index}>
-                                    <ListItemText primary={
-                                        <div style={{ fontSize: "1.05rem" }}>
-                                            <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
-                                                {post.content}
-                                            </SyntaxHighlighter>
-                                        </div>
-
-                                    }
-                                        secondary={
-                                            <div style={{ fontSize: "0.8rem" }}>
-                                                <div>By {post.name}</div>
-                                                <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
-                                            </div>
-                                        } />
-                                </ListItem>
-
-                            )
-                            :
-                            (
-                                <ListItem key={index}>
-                                    <ListItemText primary={
-                                        <div style={{ fontSize: "1.05rem" }}>
-                                            <Latex>{post.content}</Latex>
-                                        </div>
-
-                                    }
-                                        secondary={
-                                            <div style={{ fontSize: "0.8rem" }}>
-                                                <div>By {post.name}</div>
-                                                <div>Posted at: {new Date(post.createdAt).toLocaleString()}</div>
-                                            </div>
-                                        } />
-                                </ListItem>
-                            )}
-                        {(post && (user._id === post.userId)) && <Button onClick={() => navigate(`/post/edit/${post._id}`)}><EditIcon /></Button>}
+                        <ListItem key={index}>
+                            <ListItemText primary={
+                                <div style={{fontSize: "1.05rem"}}>
+                                    {primaryContent(post)}
+                                </div>
+                                }
+                                secondary={
+                                    <div>
+                                        <div>By {post.name}</div>
+                                        <div>Posted at: {post.createdAt}</div>
+                                    </div>
+                                } />
+                        </ListItem>
+                        
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
 
@@ -237,7 +232,22 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
-                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '1.05rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }} onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <textarea
+                        required
+                        ref={quillRef}
+                        placeholder="Body"
+                        value={replyContent}
+                        style={{
+                            width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }}
+                        onChange={e => setReplyContent(e.target.value)}
+                        id="editor"
+                    ></textarea>
+                    <div
+                        ref={quillRef}
+                        label="Reply" value={replyContent}
+                        onChange={e => setReplyContent(e.target.value)}
+                        />
+
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
