@@ -77,10 +77,10 @@ export default function ShowThread() {
     useEffect(() => {
         posts.forEach((_, index) => {
             if (codeRefs.current[index]) {
-              hljs.highlightBlock(codeRefs.current[index]);
+                hljs.highlightBlock(codeRefs.current[index]);
             }
-          });    
-        }, [[posts]])
+        });
+    }, [[posts]])
 
     const getThread = async () => {
         const response = await axios.get('/api/thread/' + id)
@@ -208,12 +208,32 @@ export default function ShowThread() {
                 {posts.map((post, index) => (
 
                     <div className={classes.postBody}>
+                        {(post.content).includes("java") ?
+                        (
+                            <ListItem key={index}>
+                                <ListItemText primary={
+                                <div style={{fontSize: "13pt"}}>-
+                                    <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                                        {post.content}
+                                    </SyntaxHighlighter>-
+                                </div>
+                            }
+                                secondary={
+                                    <div>
+                                        <div>By {post.name}</div>
+                                        <div>Posted at: {post.createdAt}</div>
+                                    </div>
+                                } />
+                            </ListItem>
+                        )
+                        :
+                        (
                         <ListItem key={index}>
                             <ListItemText primary={
-                                <div style={{fontSize: "13pt"}} ref={quillRef}>
-                                    {primaryContent(post)}
+                                <div style={{fontSize: "13pt"}}>
+                                    <Latex>{post.content}</Latex>
                                 </div>
-                                }
+                            }
                                 secondary={
                                     <div>
                                         <div>By {post.name}</div>
@@ -221,6 +241,7 @@ export default function ShowThread() {
                                     </div>
                                 } />
                         </ListItem>
+                        )}
 
                         {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
@@ -232,7 +253,8 @@ export default function ShowThread() {
             <Button variant="contained" color="primary" disabled={isReplying} onClick={() => setIsReplying(true)}>Reply</Button>
             {isReplying && (
                 <form onSubmit={handleReply}>
-                    <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} />
+                    {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
+                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }} onChange={e => setReplyContent(e.target.value)}></textarea>
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
