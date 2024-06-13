@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AuthContext from '../../Contexts/AuthContext';
 import axios from 'axios'
 import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
 
 
 export default function BrowseCategories() {
+    const { user, handleLogout } = useContext(AuthContext)
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
@@ -43,7 +46,7 @@ export default function BrowseCategories() {
                     <BrowseCategories input={inputText}/>
             </div> */}
 
-            {/* <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button> */}
+            {(user._id === '666af2a6a7682741e4e07d49') && <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button>}
             <p>All Categories</p>
 
             <Divider style={{ margin: "2rem 0" }} />

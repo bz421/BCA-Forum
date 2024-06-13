@@ -31,7 +31,7 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem('token')
-    console.log(`${typeof (token)}: ${token}`)
+    // console.log(`${typeof (token)}: ${token}`)
     if (token && token !== 'null') {
       const response = await axios.get('/api/auth/init', { params: { token } })
       const { user } = response.data

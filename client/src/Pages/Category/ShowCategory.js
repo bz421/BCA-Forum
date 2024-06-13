@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ShowCategory() {
+    const { user, handleLogout } = useContext(AuthContext)
     const navigate = useNavigate()
     const {id} = useParams()
     const [category, setCategory] = useState(null)
@@ -50,7 +51,7 @@ export default function ShowCategory() {
     return (
         <div style={{padding: "2rem"}}>
             {category && <h1>{category.title}</h1>}
-            {/* <Button variant="contained" color="primary" onClick={() => navigate('/class/create/' + id)}>Create Class</Button> */}
+            {user._id === '666af2a6a7682741e4e07d49' && <Button variant="contained" color="primary" onClick={() => navigate('/class/create/' + id)}>Create Class</Button>}
             <p>All Classes</p>
 
             <Divider style={{ margin: "2rem 0" }} />
