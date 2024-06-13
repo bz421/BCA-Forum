@@ -20,10 +20,6 @@ import cpp from 'highlight.js/lib/languages/cpp';
 import "highlight.js/styles/monokai.css";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useQuill } from 'react-quilljs';
-import Quill from 'quill';
-
-import QuillEditor from "react-quill";
 
 
 hljs.registerLanguage("javascript", javascript);
