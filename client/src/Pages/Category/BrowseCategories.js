@@ -45,7 +45,8 @@ export default function BrowseCategories() {
                     <BrowseCategories input={inputText}/>
             </div> */}
 
-            <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button>
+            {/* <Button variant="contained" color="primary" onClick={() => navigate('/category/create')}>Create Category</Button> */}
+            <p>All Categories</p>
 
             <Divider style={{ margin: "2rem 0" }} />
 

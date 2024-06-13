@@ -22,18 +22,18 @@ import Latex from 'react-latex-next';
 // import BrowseCategories from './BrowseCategories'
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [liked, setLiked] = useState([])
-  const navigate = useNavigate()
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const { user } = useContext(AuthContext);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [liked, setLiked] = useState([])
+    const navigate = useNavigate()
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
-  const handleLogin = () => {
-    handleClose()
-    navigate('/auth/login')
-  }
+    const handleLogin = () => {
+        handleClose()
+        navigate('/auth/login')
+    }
 
     const handleRegister = () => {
         handleClose()
@@ -41,13 +41,15 @@ export default function Home() {
     }
 
     const getLiked = async () => {
-        const ids = user.heartedClasses
-        let ret = []
-        for (let i=0; i<ids.length; i++) {
-            await axios.get('/api/class/' + ids[i]).then((res) => ret.push(res))
+        if (user && user !== 'null') {
+            const ids = user.heartedClasses
+            let ret = []
+            for (let i = 0; i < ids.length; i++) {
+                await axios.get('/api/class/' + ids[i]).then((res) => ret.push(res))
+            }
+            console.log('ret: ' + JSON.stringify(ret))
+            setLiked(ret)
         }
-        console.log('ret: ' + JSON.stringify(ret))
-        setLiked(ret)
     }
 
     useEffect(() => {
@@ -56,27 +58,27 @@ export default function Home() {
     }, [])
     return (
         // <div className="TotalDiv" style={{padding: "2rem", backgroundImage: "./duckheart.png"}}>
-        <div style={{padding: "2rem"}}>
-            <h1 data-aos ="fade-right" style={{fontSize:"3rem", textAlign:"center"}}>Welcome to BCA Forum!</h1>
+        <div style={{ padding: "2rem" }}>
+            <h1 data-aos="fade-right" style={{ fontSize: "3rem", textAlign: "center" }}>Welcome to BCA Forum!</h1>
             {
-                user ? 
-                (
-                    <div>
-                        <br />
-                        <div data-aos="fade-right">
-                            <h2 style={{textAlign:"center"}}>Check out some class categories, or your profile.</h2>
+                user ?
+                    (
+                        <div>
                             <br />
-                            <div id="loggedInBtns">
-                                <Button color="primary" variant="contained" onClick={() => navigate('/category/')} >
-                                    Categories
-                                </Button>
-                                <Button color="primary" variant="contained" onClick={() => navigate('/profile/' + user._id)}>
-                                    Profile
-                                </Button>
+                            <div data-aos="fade-right">
+                                <h2 style={{ textAlign: "center" }}>Check out some class categories, or your profile.</h2>
+                                <br />
+                                <div id="loggedInBtns">
+                                    <Button color="primary" variant="contained" onClick={() => navigate('/category/')} >
+                                        Categories
+                                    </Button>
+                                    <Button color="primary" variant="contained" onClick={() => navigate('/profile/' + user._id)}>
+                                        Profile
+                                    </Button>
+                                </div>
+
                             </div>
-                            
-                        </div>
-                        <h2 style={{textAlign: "center", marginTop: "1.05rem"}}>Your liked classes</h2>
+                            <h2 style={{ textAlign: "center", marginTop: "2rem" }}>Your liked classes</h2>
                             <List>
                                 {liked.length !== 0 && liked.map((e) => (
                                     <div>
@@ -100,75 +102,75 @@ export default function Home() {
                                     e.data.title
                                 ))}
                             </div> */}
-                    </div>
-                    // Add some duckhearts down here for fun
-                )
-                :
-                (
-                    <div>
-                        <br />
-                        <h1 style={{textAlign:"center "}}>Register or login to get started.</h1>
-                        <br />
-                        <div id="buttonCenter">
-                        <Button
+                        </div>
+                        // Add some duckhearts down here for fun
+                    )
+                    :
+                    (
+                        <div>
+                            <br />
+                            <h1 style={{ textAlign: "center " }}>Register or login to get started.</h1>
+                            <br />
+                            <div id="buttonCenter">
+                                <Button
                                     size="large"
                                     aria-label="account of current user"
                                     aria-controls="menu-appbar"
                                     aria-haspopup="true"
                                     onClick={handleRegister}
                                     color="inherit"
-                                    className = 'regLog'
+                                    className='regLog'
                                 >
                                     Register
-                        </Button>
-                        <Button
+                                </Button>
+                                <Button
                                     size="large"
                                     aria-label="account of current user"
                                     aria-controls="menu-appbar"
                                     aria-haspopup="true"
                                     onClick={handleLogin}
                                     color="inherit"
-                                    className = 'regLog'
+                                    className='regLog'
                                 >
                                     Login
-                        </Button>
+                                </Button>
+                            </div>
+                            <div id="info">
+                                <div class="mockPic" data-aos="fade-right">
+                                    <img src={catMock} id="catMock" alt="Device mockup for categories" />
+
+                                </div>
+                                <div class="mockText" data-aos="fade-right">
+                                    <h2>BCA Forum is organized into categories, so users can easily access their classes.</h2>
+                                </div>
+                                <div class="mockText" data-aos="fade-left">
+                                    <h2>Categories are further organized into classes.</h2>
+                                </div>
+                                <div class="mockPic" data-aos="fade-left">
+                                    <img src={clsMock} id="clsMock" alt="Device mockup for classes" />
+                                </div>
+
+                                <div class="mockPic" data-aos="fade-right">
+                                    <img src={thrMock} id="thrMock" alt="Device mockup for threads" />
+
+                                </div>
+                                <div class="mockText" data-aos="fade-right">
+                                    <h2>Users can select which class they're in and post threads for that class there. <br /> They can also see threads other students have created.</h2>
+                                </div>
+                                <div class="mockText" data-aos="fade-left">
+                                    <h2>Threads can be replied to by other users. <br /><br /> BCA Forum supports <Latex>$LaTeX$</Latex> formatting, among various other text formatting features.</h2>
+
+                                </div>
+                                <div class="mockPic" data-aos="fade-left">
+                                    <img src={latexLogo} alt="Latex Logo" id="lateL" />
+
+                                </div>
+
+                            </div>
+
                         </div>
-                        <div id="info">
-                            <div class="mockPic" data-aos="fade-right">
-                                <img src={catMock} id="catMock" alt="Device mockup for categories"/>
 
-                            </div>
-                            <div class="mockText" data-aos="fade-right">
-                                <h2>BCA Forum is organized into categories, so users can easily access their classes.</h2>
-                            </div>
-                            <div class="mockText" data-aos="fade-left">
-                                <h2>Categories are further organized into classes.</h2>
-                            </div>
-                            <div class="mockPic" data-aos="fade-left">
-                                <img src={clsMock}  id="clsMock" alt="Device mockup for classes"/>
-                            </div>
-                            
-                            <div class="mockPic" data-aos="fade-right">
-                                <img src={thrMock} id="thrMock" alt="Device mockup for threads"/>
-
-                            </div>
-                            <div class="mockText" data-aos="fade-right">
-                                <h2>Users can select which class they're in and post threads for that class there. <br /> They can also see threads other students have created.</h2>
-                            </div>
-                            <div class="mockText" data-aos="fade-left">
-                                <h2>Threads can be replied to by other users. <br /><br /> BCA Forum supports <Latex>$LaTeX$</Latex> formatting, among various other text formatting features.</h2>
-                                
-                            </div>
-                            <div class="mockPic" data-aos="fade-left">
-                                <img src={latexLogo} alt="Latex Logo" id="lateL" />
-
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                
-                )
+                    )
             }
         </div>
     )
