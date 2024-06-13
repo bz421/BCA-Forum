@@ -38,13 +38,13 @@ export default function ShowCategory() {
         const response = await axios.get('/api/class/category/'+id)
         setClasses(response.data)
     }
-    const handleHeart = async (clid) => {
-        // setHToggle(!hToggle);
-        const data = {
-            // userId
-        }
-        const response = await axios.patch('/api/class/heart/' + clid, data)
-    }
+    // const handleHeart = async (clid) => {
+    //     // setHToggle(!hToggle);
+    //     const data = {
+    //         // userId
+    //     }
+    //     const response = await axios.patch('/api/class/heart/' + clid, data)
+    // }
 
     return (
         <div style={{padding: "2rem"}}>
@@ -64,7 +64,7 @@ export default function ShowCategory() {
                                 </div>
                             } />
                         </ListItem>
-                        <Button onClick={() => handleHeart(cls._id)}><HeartButton /></Button>
+                        <HeartButton />
 
                     </div>
                     
@@ -80,12 +80,22 @@ export default function ShowCategory() {
 
 function HeartButton() {
     const [hToggle, setHToggle] = useState(false);
-    function changeColor() {
+    // function changeColor() {
+    //     // setHToggle(!hToggle);
+    // }
+    const handleHeart = async (clid) => {
         setHToggle(!hToggle);
+        const data = {
+            // userId
+        }
+        const response = await axios.patch('/api/class/heart/' + clid, data)
     }
 
     return (
-        <FavoriteIcon onClick={changeColor} color={hToggle ? "secondary" : "disabled"}/>
+        
+        <Button onClick={() => handleHeart()}>
+            <FavoriteIcon color={hToggle ? "secondary" : "disabled"}/>
+        </Button>
     );
 
 }
