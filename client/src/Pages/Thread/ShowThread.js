@@ -196,6 +196,50 @@ export default function ShowThread() {
 
     //const quill = new Quill('#editor');
 
+    // const format = (post) => {
+    //     return (
+    //         (post.content).replaceAll("\\*(.*?)\\*", "<i>$1</i>")
+    //     )
+    // }
+
+    const primaryContent = (post) => {
+        if(((post.content).substring(0,13)) === ("```javascript")) {
+            return (
+                <SyntaxHighlighter language="javascript" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(13)}
+                </SyntaxHighlighter>
+            );
+        } else if(((post.content).substring(0,7)) === ("```java")) {
+            return (
+                
+                <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(7)}
+                </SyntaxHighlighter>
+                
+            );
+        } else if(((post.content).substring(0,6)) === ("```cpp")) {
+            return (
+                <SyntaxHighlighter language="cpp" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(6)}
+                </SyntaxHighlighter>
+            );
+        }  else if(((post.content).substring(0,9)) === ("```python")) {
+            return (
+                <SyntaxHighlighter language="python" style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(9)}
+                </SyntaxHighlighter>
+            );
+        } else {
+            return (
+                <Latex>{post.content}</Latex>
+            )
+        }
+    }
+
+    const { quill, quillRef } = useQuill();
+
+    //const quill = new Quill('#editor');
+
     return (
         <div style={{ padding: "2rem" }}>
             {thread && <h1><Latex>{thread.title + ' '}</Latex></h1>}
