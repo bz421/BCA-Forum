@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from 'react'
-import { TextField } from '@material-ui/core'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
 import Button from '@material-ui/core/Button'
@@ -7,7 +6,6 @@ import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';
 import { makeStyles } from '@material-ui/core/styles';
-import { idea } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 
 
