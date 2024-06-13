@@ -1,24 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import '../home.css';
 import AuthContext from '../Contexts/AuthContext';
-import AppBar from '@material-ui/core/AppBar';
-import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import axios from 'axios'
 import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import catMock from './Auth/Images/categoryMockup.png'
 import clsMock from './Auth/Images/clsMockup.png'
 import thrMock from './Auth/Images/threadMockup.png'
 import latexLogo from './Auth/Images/latex.png'
+import List from '@material-ui/core/List'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItem from '@material-ui/core/ListItem'
 
 
 
@@ -28,7 +23,8 @@ import Latex from 'react-latex-next';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [liked, setLiked] = useState([])
   const navigate = useNavigate()
   const handleClose = () => {
     setAnchorEl(null);
@@ -43,8 +39,20 @@ export default function Home() {
         handleClose()
         navigate('/auth/register')
     }
+
+    const getLiked = async () => {
+        const ids = user.heartedClasses
+        let ret = []
+        for (let i=0; i<ids.length; i++) {
+            await axios.get('/api/class/' + ids[i]).then((res) => ret.push(res))
+        }
+        console.log('ret: ' + JSON.stringify(ret))
+        setLiked(ret)
+    }
+
     useEffect(() => {
         AOS.init();
+        getLiked()
     }, [])
     return (
         // <div className="TotalDiv" style={{padding: "2rem", backgroundImage: "./duckheart.png"}}>
@@ -68,6 +76,30 @@ export default function Home() {
                             </div>
                             
                         </div>
+                        <h2 style={{textAlign: "center", marginTop: "1.05rem"}}>Your liked classes</h2>
+                            <List>
+                                {liked.length !== 0 && liked.map((e) => (
+                                    <div>
+                                        <ListItem button onClick={() => navigate(`/class/${e.data._id}`)}>
+                                            <ListItemText primary={
+                                                <span style={{ fontSize: "1.1rem" }}><Latex>{e.data.title}</Latex></span>
+                                            }
+                                                secondary={
+                                                    <div>
+                                                        <div>Last Modified By: {e.data.author}</div>
+                                                        <div>Last Modified At: {new Date(e.data.createdAt).toLocaleString()}</div>
+                                                    </div>
+                                                } />
+                                        </ListItem>
+                                    </div>
+                                ))}
+                            </List>
+                            {/* <div>
+                                Hi
+                                {liked.map((e) => (
+                                    e.data.title
+                                ))}
+                            </div> */}
                     </div>
                     // Add some duckhearts down here for fun
                 )

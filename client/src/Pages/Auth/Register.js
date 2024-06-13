@@ -81,7 +81,7 @@ export default function Register() {
         const data = {
             name,
             email,
-            password
+            password,
         }
 
         try {

@@ -9,10 +9,11 @@ import axios from 'axios'
 import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
-import { TextField } from '@material-ui/core'
+import red from '@material-ui/core/colors/red'
+import { createTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles';
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import python from 'highlight.js/lib/languages/python';
@@ -27,7 +28,6 @@ hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("python", python);
 hljs.registerLanguage("java", java);
 hljs.registerLanguage("cpp", cpp);
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -62,9 +62,19 @@ export default function ShowThread() {
     const [hasMore, setHasMore] = useState(false)
     const [isReplying, setIsReplying] = useState(false)
     const [replyContent, setReplyContent] = useState('')
+    const [content, setContent] = useState('')
     const [normal, setNormal] = useState(true)
     const { id } = useParams()
     const codeRefs = useRef([])
+
+
+    const theme = createTheme({
+        palette: {
+            secondary: {
+                main: '#FF0000'
+            }
+        }
+    })
 
     useEffect(() => {
         getThread()
@@ -83,6 +93,7 @@ export default function ShowThread() {
         const response = await axios.get('/api/thread/' + id)
         console.log('Getting thread: ' + response)
         setThread(response.data)
+        setContent(response.data.content)
     }
 
     const getPosts = async () => {
@@ -104,7 +115,7 @@ export default function ShowThread() {
         e.preventDefault()
         if (!replyContent) return
 
-        const cleanedContent = replyContent.replace(/<[^>]+>/g, '')
+        const cleanedContent = replyContent.replace(/<[^>]+>/g, '').replace(/\n/g, '<br>')
 
 
         const data = {
@@ -142,9 +153,16 @@ export default function ShowThread() {
 
     }
 
-    const handleDelete = async (pid) => {
+    const handlePostDelete = async (pid) => {
         const response = await axios.delete('/api/post/delete/' + pid)
         window.location.reload()
+    }
+
+    const handleThreadDelete = async(tid) => {
+        const thread = await axios.get('/api/thread/' + tid)
+        const parentCls = thread.data.classId
+        const response = await axios.delete('/api/thread/delete/' + tid)
+        navigate(`/class/${parentCls}`)
     }
 
     const navigate = useNavigate()
@@ -170,21 +188,26 @@ export default function ShowThread() {
                     <div>
                         <p>You are the creator</p>
                     </div>
+
                 )
                 :
                 (
                     <div>
-                        
-                        <p style={{fontSize:"0.9rem"}}>By {thread.name}</p>
-                        
+
+                        <p style={{ fontSize: "0.9rem" }}>By {thread.name}</p>
                     </div>
-                    
-                    
+
+
                 )
             }
 
 
-            {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{thread.content + ' '}</Latex></p>}
+            {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{content.replace(/\n/g, '<br>') + ' '}</Latex></p>}
+            <ThemeProvider theme={theme}>
+                <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>
+                <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>
+            </ThemeProvider>
+
             <List>
                 {posts.map((post, index) => (
                     <div className={classes.postBody}>
@@ -226,7 +249,7 @@ export default function ShowThread() {
                                 </ListItem>
                             )}
                         {(post && (user._id === post.userId)) && <Button onClick={() => navigate(`/post/edit/${post._id}`)}><EditIcon /></Button>}
-                        {(post && (user._id === post.userId)) && <Button onClick={() => handleDelete(post._id)}><DeleteIcon /></Button>}
+                        {(post && (user._id === post.userId)) && <Button onClick={() => handlePostDelete(post._id)}><DeleteIcon /></Button>}
                     </div>
 
                 ))}
