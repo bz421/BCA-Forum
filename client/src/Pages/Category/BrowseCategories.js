@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
-import Button from '@material-ui/core/Button'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
-import { TextField } from '@material-ui/core'
 
 
 export default function BrowseCategories() {

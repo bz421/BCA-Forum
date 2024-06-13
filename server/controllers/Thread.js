@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Thread = require('../models/Thread')
 const Post = require('../models/Post')
-const mongoose = require('mongoose')
-const Class = require('../models/Class')
 
 router.post('/create', async (req, res) => {
     console.log(Date.now().toLocaleString())
