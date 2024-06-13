@@ -49,7 +49,10 @@ export default function Home() {
     return (
         // <div className="TotalDiv" style={{padding: "2rem", backgroundImage: "./duckheart.png"}}>
         <div style={{padding: "2rem"}}>
-            <h1 data-aos ="fade-right" style={{fontSize:"3rem", textAlign:"center"}}>Welcome to BCA Forum!</h1>
+            <div>
+                <h1 data-aos ="fade-right" style={{fontSize:"3rem", textAlign:"center"}}>Welcome to BCA Forum!</h1>
+
+            </div>
             {
                 user ? 
                 (

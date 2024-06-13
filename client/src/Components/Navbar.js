@@ -56,14 +56,30 @@ export default function MenuAppBar() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Link to="" className={classes.title} style={{textDecoration: "none", color: "inherit"}}>
-                        <Typography variant="h6">
-                            BCA Forum
+            <AppBar position="static" style={{height: "100px"}}>
+                <Toolbar style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Link to=""
+                        className={classes.title}
+                        style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            display: "flex",
+                            alignItems: "center",
+                            //justifyContent: "center",
+                            height: "100%"
+                        }}
+                    >
+                        <img src="BCA_colorLogo.png" style={{height:"50%", margin: "10px"}} />
+                        <Typography variant="h6" style={{fontSize: "30px"}}>
+                            <b>BCA</b> Forum
                         </Typography>
                     </Link>
-                    <Button color="inherit" onClick={() => navigate('/category/')}>
+                    <Button
+                        style={{
+                            fontSize: "20px"
+                        }}
+                        color="inherit"
+                        onClick={() => navigate('/category/')}>
                         Categories
                     </Button>
                     {user ?
@@ -76,6 +92,7 @@ export default function MenuAppBar() {
                                     aria-haspopup="true"
                                     onClick={handleMenu}
                                     color="inherit"
+                                    style={{fontSize: "20px"}}
                                 >
                                     {user.name}
                                 </Button>
