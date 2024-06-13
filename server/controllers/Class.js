@@ -40,13 +40,6 @@ router.get('/:id', async (req, res) => {
     res.send(cLass)
 })
 
-router.patch('/heart/:id', async (req, res) => {
-    
-})
-router.patch('/unheart/:id', async (req, res) => {
-    
-})
-
 router.get('/category/:id', async (req, res) => {
     const cLasses = await Class.find({categoryId: req.params.id})
     res.send(cLasses)

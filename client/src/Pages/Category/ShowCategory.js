@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import AuthContext from '../../Contexts/AuthContext';
 import List from '@material-ui/core/List'
 import {makeStyles} from '@material-ui/core/styles'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -67,7 +68,7 @@ export default function ShowCategory() {
                                 </div>
                             } />
                         </ListItem>
-                        <HeartButton />
+                        <HeartButton cid={cls._id}/>
 
                     </div>
                     
@@ -80,24 +81,45 @@ export default function ShowCategory() {
     )
 }
 
-function HeartButton() {
-    const [hToggle, setHToggle] = useState(false);
+function HeartButton(cid) {
+    console.log(cid.cid)
+    const { user, handleLogout } = useContext(AuthContext)
+    console.log(user.heartedClasses)
+    const [hToggle, setHToggle] = useState((user.heartedClasses.includes(cid.cid)));
     // function changeColor() {
     //     // setHToggle(!hToggle);
     // }
-    const handleHeart = async (clid) => {
+    const handleHeart = async () => {
         setHToggle(!hToggle);
-        const data = {
-            // userId
+        console.log('hToggle: ' + hToggle)
+        const currentArray = user.heartedClasses
+        console.log(currentArray)
+        if (hToggle) {
+            currentArray.splice(currentArray.indexOf(cid.cid), 1)
+            console.log('Unhearting: ' + currentArray)
+            const response = await axios.patch('/api/auth/changeheart/' + user._id, {
+                heartedClasses: currentArray
+            })
         }
-        const response = await axios.patch('/api/class/heart/' + clid, data)
+        else {
+            console.log(cid)
+            currentArray.push(cid.cid)
+            const response = await axios.patch('/api/auth/changeheart/' + user._id, {
+                heartedClasses: currentArray
+            })
+        }
     }
 
     return (
         
-        <Button onClick={() => handleHeart()}>
-            <FavoriteIcon color={hToggle ? "secondary" : "disabled"}/>
+        <Button onClick={() => handleHeart(cid)}>
+            {/* {setHToggle()} */}
+            <FavoriteIcon color={(hToggle) ? "secondary" : "disabled"}/>
         </Button>
     );
 
 }
+
+
+// 665a4e3030b256c1a3efeabd
+// 666a5ca062c5fd5f1ff9d6dc

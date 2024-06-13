@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
 router.get('/init', async (req, res) => {
@@ -60,5 +61,39 @@ router.post('/login', async (req, res) => {
         user
     })
 })
+
+router.patch('/changeheart/:id', async (req, res) => {
+    const updateObject = req.body.heartedClasses
+    console.log(updateObject)
+    console.log(typeof(updateObject))
+    for (let i=0; i<updateObject.length; i++) {
+        console.log('Null checking: ' + !updateObject[i])
+        updateObject[i] = (new mongoose.Types.ObjectId(updateObject[i]))
+        console.log('Here! ' + updateObject[i])
+    }
+    // req.params.id: user id
+    // req.body.classId: classId
+    // const user = await User.findById(req.body.user)
+    console.log('Final! ' + updateObject)
+    const response = await User.findByIdAndUpdate(req.params.id, {
+        heartedClasses: updateObject
+    })
+    res.sendStatus(200)
+
+})
+// router.patch('/unheart/:id', async (req, res) => {
+//     const updateObject = req.body.heartedClasses
+//     console.log(updateObject)
+//     console.log(typeof (updateObject))
+//     for (let i = 0; i < updateObject.length; i++) {
+//         updateObject[i] = (new mongoose.Types.ObjectId(updateObject[i].cid))
+//         console.log('Here! ' + JSON.stringify(updateObject[i]))
+//     }
+//     // req.params.id: user id
+//     // req.body.classId: classId
+//     // const user = await User.findById(req.body.user)
+//     const response = await User.findByIdAndUpdate(req.params.id, req.body)
+//     res.sendStatus(200)
+// })
 
 module.exports = router

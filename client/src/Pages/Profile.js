@@ -1,17 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import AuthContext from '../Contexts/AuthContext';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button'
 import axios from 'axios'
-import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'

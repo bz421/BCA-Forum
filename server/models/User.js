@@ -7,7 +7,7 @@ const UserSchema = new schema({
     email: String,
     password: String,
     createdAt: Date,
-    heartedClasses: [{classId: mongoose.Types.ObjectId, className: String}]
+    heartedClasses: [mongoose.Types.ObjectId]
 })
 
 // UserSchema.pre('save', async function(next){
