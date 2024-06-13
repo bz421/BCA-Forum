@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Category = require('../models/Category')
-const mongoose = require('mongoose')
 
 router.post('/create', async (req, res) => {
     // console.log('req: ' + req)
