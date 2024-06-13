@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import AuthContext from '../Contexts/AuthContext';
 import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import Profile from '../Pages/Profile';
 
 const useStyles = makeStyles(theme => ({
     root: {

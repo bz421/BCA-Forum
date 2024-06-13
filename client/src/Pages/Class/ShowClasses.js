@@ -4,11 +4,13 @@ import Button from '@material-ui/core/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import List from '@material-ui/core/List'
+import Icon from "@material-ui/core/Icon"
 import ListItemText from '@material-ui/core/ListItemText'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem'
 import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
 
