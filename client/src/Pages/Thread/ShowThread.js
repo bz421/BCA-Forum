@@ -203,8 +203,8 @@ export default function ShowThread() {
 
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{content.replace(/\n/g, '<br>') + ' '}</Latex></p>}
             <ThemeProvider theme={theme}>
-                <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>
-                <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>
+                {(thread && (user._id === thread.userId)) && <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>}
+                {(thread && (user._id === thread.userId)) && <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>}
             </ThemeProvider>
 
             <List>
