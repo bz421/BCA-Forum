@@ -192,52 +192,6 @@ export default function ShowThread() {
         }
     }
 
-    const { quill, quillRef } = useQuill();
-
-    //const quill = new Quill('#editor');
-
-    // const format = (post) => {
-    //     return (
-    //         (post.content).replaceAll("\\*(.*?)\\*", "<i>$1</i>")
-    //     )
-    // }
-
-    const primaryContent = (post) => {
-        if(((post.content).substring(0,13)) === ("```javascript")) {
-            return (
-                <SyntaxHighlighter language="javascript" style={atomDark} wrapLines showLineNumbers>
-                    {(post.content).substring(13)}
-                </SyntaxHighlighter>
-            );
-        } else if(((post.content).substring(0,7)) === ("```java")) {
-            return (
-                
-                <SyntaxHighlighter language="java" style={atomDark} wrapLines showLineNumbers>
-                    {(post.content).substring(7)}
-                </SyntaxHighlighter>
-                
-            );
-        } else if(((post.content).substring(0,6)) === ("```cpp")) {
-            return (
-                <SyntaxHighlighter language="cpp" style={atomDark} wrapLines showLineNumbers>
-                    {(post.content).substring(6)}
-                </SyntaxHighlighter>
-            );
-        }  else if(((post.content).substring(0,9)) === ("```python")) {
-            return (
-                <SyntaxHighlighter language="python" style={atomDark} wrapLines showLineNumbers>
-                    {(post.content).substring(9)}
-                </SyntaxHighlighter>
-            );
-        } else {
-            return (
-                <Latex>{post.content}</Latex>
-            )
-        }
-    }
-
-    const { quill, quillRef } = useQuill();
-
     //const quill = new Quill('#editor');
 
     return (
@@ -278,7 +232,6 @@ export default function ShowThread() {
                     {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
                     <textarea
                         required
-                        ref={quillRef}
                         placeholder="Body"
                         value={replyContent}
                         style={{
@@ -286,11 +239,6 @@ export default function ShowThread() {
                         onChange={e => setReplyContent(e.target.value)}
                         id="editor"
                     ></textarea>
-                    <div
-                        ref={quillRef}
-                        label="Reply" value={replyContent}
-                        onChange={e => setReplyContent(e.target.value)}
-                        />
 
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
