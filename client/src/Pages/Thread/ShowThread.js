@@ -13,6 +13,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
+import Divider from '@material-ui/core/Divider'
+import { TextField } from '@material-ui/core'
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import python from 'highlight.js/lib/languages/python';
@@ -119,7 +121,7 @@ export default function ShowThread() {
 
         const data = {
             threadId: thread._id,
-            content: cleanedContent,
+            content: replyContent,
             userId: user._id,
             name: user.name
         }
@@ -165,15 +167,51 @@ export default function ShowThread() {
     }
 
     const navigate = useNavigate()
-    // console.log(thread)
-    // console.log(!thread)
-    // console.log(thread.content)
-    // let cont = 'a' + thread.content + ' a'
 
-    // const codeRef = useRef(null);
-    // useEffect(() => {
-    //     hljs.highlightBlock(codeRef.current);
-    //   }, []);
+    const formatting = (text) => {
+        const bold = /\*\*(.*?)\*\*/g
+        const italic = /\*(.*?)\*/g
+        const underline = /\_\_(.*?)\_\_/g;
+
+        text = text.replace(bold, (match, str) => `<b>${str}</b>`)
+        text = text.replace(italic, (match, str) => `<i>${str}</i>`)
+        text = text.replace(underline, (match, str) => `<u>${str}</u>`)
+        
+        return text
+    }   
+
+    const firstIndex = (content, language) => {
+        let whitespace= new Set([" ", "\t", "\n"])
+        for(let i = 3+language.length; i< content.length; i++){
+            if(!whitespace.has(content[i])){
+                return i
+            }
+        }
+    }
+
+    const primaryContent = (post) => {
+        const regex = /\$/;
+        if((post.content).substring(0, 3) === "```"){
+            const language = (post.content).substring(3,(post.content).indexOf('\n'))
+            return (
+                <SyntaxHighlighter language={language} style={atomDark} wrapLines showLineNumbers>
+                    {(post.content).substring(firstIndex((post.content), language))}
+                </SyntaxHighlighter>
+            );
+        } else if(regex.test(post.content)) {
+            return (
+                <Latex>
+                    {post.content}
+                </Latex>
+            );
+        } else {
+            return (
+                <div dangerouslySetInnerHTML={ { __html : formatting(post.content)}} />
+            );
+        }
+    }
+
+    //const quill = new Quill('#editor');
 
     return (
         <div style={{ padding: "2rem" }}>
@@ -209,6 +247,7 @@ export default function ShowThread() {
 
             <List>
                 {posts.map((post, index) => (
+
                     <div className={classes.postBody}>
                         {(post.content).includes("```java") ?
                             (
@@ -259,7 +298,16 @@ export default function ShowThread() {
             {isReplying && (
                 <form onSubmit={handleReply}>
                     {/* <TextField style={{ marginTop: "1rem" }} fullWidth label="Reply" value={replyContent} onChange={e => setReplyContent(e.target.value)} /> */}
-                    <textarea placeholder="Body" required value={replyContent} style={{ width: '100%', height: '15vh', fontSize: '1.05rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }} onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <textarea
+                        required
+                        placeholder="Body"
+                        value={replyContent}
+                        style={{
+                            width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }}
+                        onChange={e => setReplyContent(e.target.value)}
+                        id="editor"
+                    ></textarea>
+
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
                     <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
