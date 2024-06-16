@@ -81,6 +81,7 @@ export default function Home() {
                                 </div>
 
                             </div>
+                            {/* Find a way to incorporate this into the profile page too */}
                             <h2 style={{ textAlign: "center", marginTop: "2rem" }}>Your liked classes</h2>
                             <List>
                                 {liked.length !== 0 && liked.map((e) => (

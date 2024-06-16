@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+// Look into replacing this with oauth
+
 router.get('/init', async (req, res) => {
     let response = null
 
@@ -62,6 +64,7 @@ router.post('/login', async (req, res) => {
     })
 })
 
+// Move this into separate file, its not auth
 router.patch('/changeheart/:id', async (req, res) => {
     const updateObject = req.body.heartedClasses
     console.log(updateObject)
