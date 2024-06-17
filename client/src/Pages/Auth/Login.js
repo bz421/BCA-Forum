@@ -67,7 +67,7 @@ export default function SignIn() {
                 <InnerContainer>
                     <Avatar sx={{
                             margin: theme.spacing(1),
-                            bgcolor: '#ff7961',
+                            bgcolor: theme.palette.success.light,
                     }}>
                         <img src={duckheart} width="60%" alt="duckheart" />
                     </Avatar>

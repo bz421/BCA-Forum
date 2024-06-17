@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -8,8 +8,17 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { useTheme } from '@mui/material/styles'
 import duckheart from './Images/duckheart.png'
+import { styled } from '@mui/system'
 import validator from 'validator'
 import axios from 'axios'
+import { ThemeProvider } from '@emotion/react'
+
+const InnerContainer = styled('div')(({ theme }) => ({
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+}))
 
 
 export default function Register() {
@@ -74,75 +83,76 @@ export default function Register() {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div sx={{
-                marginTop: theme.spacing(8),
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
-                <Avatar sx={{
-                    margin: theme.spacing(1),
-                    backgroundColor: theme.palette.secondary.main,
-                }}>
-                    <img src={duckheart} width="60%" alt="duckheart"/>
-                </Avatar>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <InnerContainer>
+                    <Avatar sx={{
+                        margin: theme.spacing(1),
+                        backgroundColor: theme.palette.error.main,
+                    }}>
+                        <img src={duckheart} width="60%" alt="duckheart" />
+                    </Avatar>
 
-                <Typography component="h1" variant="h5">
-                    Register
-                </Typography>
-                <form sx={{
-                    width: '100%',
-                    marginTop: theme.spacing(1)
-                }} onSubmit={handleOnSubmit}>
-                    <TextField
-                        required
-                        fullWidth
-                        label="Name"
-                        autoFocus
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                    <TextField 
-                        required
-                        fullWidth
-                        label="Email Address"
-                        autoFocus
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        error={!!emailError}
-                        helperText={emailError}
-                    />
-                    <TextField 
-                        required
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        error={!!passwordError}
-                        helperText={passwordError}
-                    />
-                    <TextField
-                        required
-                        fullWidth
-                        label="Confirm Password"
-                        type="password"
-                        value={passwordConfirmation}
-                        onChange={e => setPasswordConfirmation(e.target.value)}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        sx={{ margin: theme.spacing(3, 0, 2) }}
-                    >
+                    <Typography component="h1" variant="h5">
                         Register
-                    </Button>
-                </form>
-            </div>
+                    </Typography>
+                    <form sx={{
+                        width: '100%',
+                        marginTop: theme.spacing(1)
+                    }} onSubmit={handleOnSubmit}>
+                        <TextField
+                            variant="standard"
+                            required
+                            fullWidth
+                            label="Name"
+                            autoFocus
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                        <TextField
+                            variant="standard"
+                            required
+                            fullWidth
+                            label="Email Address"
+                            autoFocus
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            error={!!emailError}
+                            helperText={emailError}
+                        />
+                        <TextField
+                            variant="standard"
+                            required
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            error={!!passwordError}
+                            helperText={passwordError}
+                        />
+                        <TextField
+                            variant="standard"
+                            required
+                            fullWidth
+                            label="Confirm Password"
+                            type="password"
+                            value={passwordConfirmation}
+                            onChange={e => setPasswordConfirmation(e.target.value)}
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            sx={{ margin: theme.spacing(3, 0, 2) }}
+                        >
+                            Register
+                        </Button>
+                    </form>
+            </InnerContainer>
         </Container>
+        </ThemeProvider >
     )
 }
