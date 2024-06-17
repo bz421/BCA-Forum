@@ -1,20 +1,13 @@
 import { useState, useEffect, useContext } from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import AuthContext from '../../Contexts/AuthContext';
-import List from '@material-ui/core/List'
-import {makeStyles} from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-
-const useStyles = makeStyles(theme => ({
-    classBody: {
-        display: "flex"
-    }
-}))
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
+import Divider from '@mui/material/Divider'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 export default function ShowCategory() {
     const { user, handleLogout } = useContext(AuthContext)
@@ -22,7 +15,6 @@ export default function ShowCategory() {
     const {id} = useParams()
     const [category, setCategory] = useState(null)
     const [classes, setClasses] = useState([])
-    const clss = useStyles()
     // const [hToggle, setHToggle] = useState(false)
 
     useEffect(() => {
@@ -58,7 +50,7 @@ export default function ShowCategory() {
 
             <List>
                 {classes.map((cls, index) => (
-                    <div className={clss.classBody}>
+                    <div sx={{display: 'flex'}}>
                         <ListItem button onClick={() => navigate(`/class/${cls._id}`)}>
                             <ListItemText primary={
                                 <span style={{fontSize: "1.1rem"}}>{cls.title}</span>

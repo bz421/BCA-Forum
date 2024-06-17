@@ -1,38 +1,14 @@
 import { useContext, useState, useEffect } from 'react'
-import { TextField } from '@material-ui/core'
+import { TextField } from '@mui/material'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';
-import { makeStyles } from '@material-ui/core/styles';
 
-
-
-
-const useStyles = makeStyles(theme => ({
-    latex: {
-        animation: "$blink 1.25s infinite ease-in-out"
-    },
-
-    "@keyframes blink": {
-        "0%": {
-            color: 'black'
-        },
-        "50%": {
-            color: 'red'
-        },
-
-        "100%": {
-            color: 'black'
-        },
-    }
-
-}))
 
 const CreateThread = () => {
-    const classes = useStyles()
     const { user, handleLogout } = useContext(AuthContext)
     const { id } = useParams()
     const navigate = useNavigate()
@@ -70,7 +46,7 @@ const CreateThread = () => {
             })
 
         })
-        
+
         navigate('/thread/' + _id)
     }
 
@@ -82,14 +58,31 @@ const CreateThread = () => {
 
             <form onSubmit={handleOnSubmit}>
                 <TextField label="Title" required fullWidth margin="normal" value={title} onChange={e => setTitle(e.target.value)} />
-                <textarea placeholder="Body" required value={content} style={{ width: '100%', height: '20vh', resize:"none", fontSize: '1.05rem', fontFamily: "Roboto"}} onChange={e => setContent(e.target.value)}></textarea>
+                <textarea placeholder="Body" required value={content} style={{ width: '100%', height: '20vh', resize: "none", fontSize: '1.05rem', fontFamily: "Roboto" }} onChange={e => setContent(e.target.value)}></textarea>
                 <Button type="submit" variant="contained" color="primary">Create</Button>
                 <pre>
                     <code>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                        <span sx={{
+                            latex: {
+                                animation: "$blink 1.25s infinite ease-in-out"
+                            },
+
+                            "@keyframes blink": {
+                                "0%": {
+                                    color: 'black'
+                                },
+                                "50%": {
+                                    color: 'red'
+                                },
+
+                                "100%": {
+                                    color: 'black'
+                                },
+                            }
+                        }} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                     </code>
                 </pre>
-                
+
 
             </form>
         </div>

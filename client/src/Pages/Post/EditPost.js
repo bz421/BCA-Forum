@@ -1,37 +1,13 @@
 import { useContext, useState, useEffect } from 'react'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';
-import { makeStyles } from '@material-ui/core/styles';
 
-
-
-
-const useStyles = makeStyles(theme => ({
-    latex: {
-        animation: "$blink 1.25s infinite ease-in-out"
-    },
-
-    "@keyframes blink": {
-        "0%": {
-            color: 'black'
-        },
-        "50%": {
-            color: 'red'
-        },
-
-        "100%": {
-            color: 'black'
-        },
-    }
-
-}))
 
 const EditPost = () => {
-    const classes = useStyles()
     const { user, handleLogout } = useContext(AuthContext)
     const { id } = useParams()
     const navigate = useNavigate()
@@ -98,7 +74,24 @@ const EditPost = () => {
                     <Button type="submit" variant="contained" color="primary">Edit</Button>
                     <pre>
                         <code>
-                            <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                            <span sx={{
+                                latex: {
+                                    animation: "$blink 1.25s infinite ease-in-out"
+                                },
+
+                                "@keyframes blink": {
+                                    "0%": {
+                                        color: 'black'
+                                    },
+                                    "50%": {
+                                        color: 'red'
+                                    },
+
+                                    "100%": {
+                                        color: 'black'
+                                    },
+                                }
+                            }} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                         </code>
                     </pre>
 

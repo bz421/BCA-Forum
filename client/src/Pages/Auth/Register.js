@@ -1,41 +1,19 @@
 import { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { useTheme } from '@mui/material/styles'
 import duckheart from './Images/duckheart.png'
 import validator from 'validator'
 import axios from 'axios'
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(1)
-    },
-
-    submit: {
-        margin: theme.spacing(3, 0, 2)
-    }
-}))
 
 export default function Register() {
-    const classes = useStyles()
+    const theme = useTheme()
     const navigate = useNavigate()
 
     const [name, setName] = useState('')
@@ -98,15 +76,26 @@ export default function Register() {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
+            <div sx={{
+                marginTop: theme.spacing(8),
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <Avatar sx={{
+                    margin: theme.spacing(1),
+                    backgroundColor: theme.palette.secondary.main,
+                }}>
                     <img src={duckheart} width="60%" alt="duckheart"/>
                 </Avatar>
 
                 <Typography component="h1" variant="h5">
                     Register
                 </Typography>
-                <form className={classes.form} onSubmit={handleOnSubmit}>
+                <form sx={{
+                    width: '100%',
+                    marginTop: theme.spacing(1)
+                }} onSubmit={handleOnSubmit}>
                     <TextField
                         required
                         fullWidth
@@ -148,7 +137,7 @@ export default function Register() {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
+                        sx={{ margin: theme.spacing(3, 0, 2) }}
                     >
                         Register
                     </Button>

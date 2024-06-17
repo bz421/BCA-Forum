@@ -3,21 +3,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../home.css';
 import AuthContext from '../Contexts/AuthContext';
 import axios from 'axios'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+// Move these out of Auth
 import catMock from './Auth/Images/categoryMockup.png'
 import clsMock from './Auth/Images/clsMockup.png'
 import thrMock from './Auth/Images/threadMockup.png'
 import latexLogo from './Auth/Images/latex.png'
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
+
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
 
 
 
-import Divider from '@material-ui/core/Divider'
+import Divider from '@mui/material/Divider'
 import Latex from 'react-latex-next';
 // import BrowseCategories from './BrowseCategories'
 

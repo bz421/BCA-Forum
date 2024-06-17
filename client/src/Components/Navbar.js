@@ -1,30 +1,18 @@
 import React, { useContext } from 'react';
 import AuthContext from '../Contexts/AuthContext';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box'
 import {Link} from 'react-router-dom';
+import BCALogo from './imgs/BCA_colorLogo.png'
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-
-}))
 
 export default function MenuAppBar() {
-    const classes = useStyles()
     const navigate = useNavigate()
     const { user, handleLogout } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,12 +41,12 @@ export default function MenuAppBar() {
     }
 
     return (
-        <div className={classes.root}>
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{height: "100px"}}>
-                <Toolbar style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Toolbar>
                     <Link to=""
-                        className={classes.title}
                         style={{
+                            flexGrow: 1,
                             textDecoration: "none",
                             color: "inherit",
                             display: "flex",
@@ -67,7 +55,7 @@ export default function MenuAppBar() {
                             height: "100%"
                         }}
                     >
-                        <img src="BCA_colorLogo.png" style={{height:"50%", margin: "10px"}} />
+                        <img src={BCALogo} style={{height:"50%", margin: "10px"}} />
                         <Typography variant="h6" style={{fontSize: "30px"}}>
                             <b>BCA</b> Forum
                         </Typography>
@@ -125,6 +113,7 @@ export default function MenuAppBar() {
                                     aria-haspopup="true"
                                     onClick={handleMenu}
                                     color="inherit"
+                                    style={{ fontSize: "20px" }}
                                 >
                                     Account
                                 </Button>
@@ -150,6 +139,6 @@ export default function MenuAppBar() {
 
                 </Toolbar>
             </AppBar>
-        </div>
+        </Box>
     );
 }

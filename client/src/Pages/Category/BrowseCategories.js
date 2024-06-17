@@ -2,11 +2,11 @@ import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';
 import axios from 'axios'
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
 
 
 export default function BrowseCategories() {

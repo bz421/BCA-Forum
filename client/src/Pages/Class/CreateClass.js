@@ -1,7 +1,7 @@
 import {useContext} from 'react'
 import { useState, useEffect } from 'react'
-import {TextField} from '@material-ui/core'
-import Button from '@material-ui/core/Button'
+import {TextField} from '@mui/material'
+import Button from '@mui/material/Button'
 import axios from 'axios'
 import {useNavigate, useParams} from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';

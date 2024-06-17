@@ -3,20 +3,19 @@ import { useParams } from 'react-router-dom'
 import AuthContext from '../Contexts/AuthContext';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import Box from '@material-ui/core/Box'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
+import Box from '@mui/material/Box'
 import Latex from 'react-latex-next'
-import AppBar from '@material-ui/core/AppBar'
+import AppBar from '@mui/material/AppBar'
 import 'katex/dist/katex.min.css'
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import { useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import SwipeableViews from 'react-swipeable-views-react-18-fix';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -65,16 +64,9 @@ TabPanel.propTypes = {
       />
     );
   }
-  
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-    },
-  }));
+
 
 export default function Profile() {
-    const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -151,7 +143,9 @@ export default function Profile() {
         <div style={{ padding: "2rem" }}>
             <h1>{user.name}</h1>
             <br />
-            <div className={classes.root}>
+
+            {/* Figure out way to change bgcolor to paper */}
+            <div sx={{ flexGrow: 1}}>
                 <AppBar position="static">
                     <Tabs
                     variant="fullWidth"

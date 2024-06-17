@@ -1,20 +1,19 @@
 import { useState, useEffect, useContext, useRef } from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
-import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../../Contexts/AuthContext';
 import axios from 'axios'
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
-import { createTheme } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/styles';
-import Divider from '@material-ui/core/Divider'
-import { TextField } from '@material-ui/core'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import { createTheme } from '@mui/material/styles'
+// import { ThemeProvider } from '@mui/styles';
+import Divider from '@mui/material/Divider'
+import { TextField } from '@mui/material'
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import python from 'highlight.js/lib/languages/python';
@@ -31,31 +30,7 @@ hljs.registerLanguage("java", java);
 hljs.registerLanguage("cpp", cpp);
 
 
-const useStyles = makeStyles(theme => ({
-    latex: {
-        animation: "$blink 1.25s infinite ease-in-out"
-    },
-
-    "@keyframes blink": {
-        "0%": {
-            color: 'black'
-        },
-        "50%": {
-            color: 'red'
-        },
-
-        "100%": {
-            color: 'black'
-        },
-    },
-
-    postBody: {
-        display: "flex"
-    }
-}))
-
 export default function ShowThread() {
-    const classes = useStyles()
     const { user, handleLogout } = useContext(AuthContext)
     const [thread, setThread] = useState([])
     const [posts, setPosts] = useState([])
@@ -159,7 +134,7 @@ export default function ShowThread() {
         window.location.reload()
     }
 
-    const handleThreadDelete = async(tid) => {
+    const handleThreadDelete = async (tid) => {
         const thread = await axios.get('/api/thread/' + tid)
         const parentCls = thread.data.classId
         const response = await axios.delete('/api/thread/delete/' + tid)
@@ -176,14 +151,14 @@ export default function ShowThread() {
         text = text.replace(bold, (match, str) => `<b>${str}</b>`)
         text = text.replace(italic, (match, str) => `<i>${str}</i>`)
         text = text.replace(underline, (match, str) => `<u>${str}</u>`)
-        
+
         return text
-    }   
+    }
 
     const firstIndex = (content, language) => {
-        let whitespace= new Set([" ", "\t", "\n"])
-        for(let i = 3+language.length; i< content.length; i++){
-            if(!whitespace.has(content[i])){
+        let whitespace = new Set([" ", "\t", "\n"])
+        for (let i = 3 + language.length; i < content.length; i++) {
+            if (!whitespace.has(content[i])) {
                 return i
             }
         }
@@ -191,14 +166,14 @@ export default function ShowThread() {
 
     const primaryContent = (post) => {
         const regex = /\$/;
-        if((post.content).substring(0, 3) === "```"){
-            const language = (post.content).substring(3,(post.content).indexOf('\n'))
+        if ((post.content).substring(0, 3) === "```") {
+            const language = (post.content).substring(3, (post.content).indexOf('\n'))
             return (
                 <SyntaxHighlighter language={language} style={atomDark} wrapLines showLineNumbers>
                     {(post.content).substring(firstIndex((post.content), language))}
                 </SyntaxHighlighter>
             );
-        } else if(regex.test(post.content)) {
+        } else if (regex.test(post.content)) {
             return (
                 <Latex>
                     {post.content}
@@ -206,7 +181,7 @@ export default function ShowThread() {
             );
         } else {
             return (
-                <div dangerouslySetInnerHTML={ { __html : formatting(post.content)}} />
+                <div dangerouslySetInnerHTML={{ __html: formatting(post.content) }} />
             );
         }
     }
@@ -240,15 +215,15 @@ export default function ShowThread() {
 
 
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{content.replace(/\n/g, '<br>') + ' '}</Latex></p>}
-            <ThemeProvider theme={theme}>
-                {(thread && (user._id === thread.userId)) && <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>}
-                {(thread && (user._id === thread.userId)) && <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>}
-            </ThemeProvider>
+            {/* <ThemeProvider theme={theme}> */}
+            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>}
+            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>}
+            {/* </ThemeProvider> */}
 
             <List>
                 {posts.map((post, index) => (
 
-                    <div className={classes.postBody}>
+                    <div sx={{display: "flex"}}>
                         {(post.content).includes("```java") ?
                             (
                                 <ListItem key={index}>
@@ -303,13 +278,31 @@ export default function ShowThread() {
                         placeholder="Body"
                         value={replyContent}
                         style={{
-                            width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto" }}
+                            width: '100%', height: '15vh', fontSize: '0.9rem', marginTop: "10px", resize: "none", fontFamily: "Roboto"
+                        }}
                         onChange={e => setReplyContent(e.target.value)}
                         id="editor"
                     ></textarea>
 
                     <Button type="submit" color="primary" variant="contained" style={{ margin: "15px" }}>Post Reply</Button>
-                    <span className={classes.latex} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
+                    <span sx={{
+                        latex: {
+                            animation: "$blink 1.25s infinite ease-in-out"
+                        },
+
+                        "@keyframes blink": {
+                            "0%": {
+                                color: 'black'
+                            },
+                            "50%": {
+                                color: 'red'
+                            },
+
+                            "100%": {
+                                color: 'black'
+                            },
+                        }
+                    }} style={{ fontWeight: "bold", marginLeft: "0.5rem" }}><Latex>$\LaTeX$ supported</Latex> (delimit with $)</span>
                 </form>
             )}
         </div>
