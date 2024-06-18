@@ -89,7 +89,7 @@ export default function Register() {
                 <InnerContainer>
                     <Avatar sx={{
                         margin: theme.spacing(1),
-                        backgroundColor: theme.palette.error.main,
+                        backgroundColor: "#ff4081",
                     }}>
                         <img src={duckheart} width="60%" alt="duckheart" />
                     </Avatar>

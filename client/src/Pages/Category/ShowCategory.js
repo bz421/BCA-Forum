@@ -4,15 +4,31 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import AuthContext from '../../Contexts/AuthContext';
 import List from '@mui/material/List'
+import { styled } from '@mui/system'
 import ListItemText from '@mui/material/ListItemText'
 import ListItem from '@mui/material/ListItem'
 import Divider from '@mui/material/Divider'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+const theme = createTheme({
+    palette: {
+        oldSecondary: {
+            main: "#ff4081",
+            light: "#f6a5c0",
+            dark: "#aa647b"
+        }
+    }
+})
+
+const ClassContainer = styled('div')(() => ({
+    display: "flex"
+}))
 
 export default function ShowCategory() {
     const { user, handleLogout } = useContext(AuthContext)
     const navigate = useNavigate()
-    const {id} = useParams()
+    const { id } = useParams()
     const [category, setCategory] = useState(null)
     const [classes, setClasses] = useState([])
     // const [hToggle, setHToggle] = useState(false)
@@ -29,7 +45,7 @@ export default function ShowCategory() {
     }
 
     const getClasses = async () => {
-        const response = await axios.get('/api/class/category/'+id)
+        const response = await axios.get('/api/class/category/' + id)
         setClasses(response.data)
     }
     // const handleHeart = async (clid) => {
@@ -41,7 +57,7 @@ export default function ShowCategory() {
     // }
 
     return (
-        <div style={{padding: "2rem"}}>
+        <div style={{ padding: "2rem" }}>
             {category && <h1>{category.title}</h1>}
             {user._id === '666af2a6a7682741e4e07d49' && <Button variant="contained" color="primary" onClick={() => navigate('/class/create/' + id)}>Create Class</Button>}
             <p>All Classes</p>
@@ -50,22 +66,22 @@ export default function ShowCategory() {
 
             <List>
                 {classes.map((cls, index) => (
-                    <div sx={{display: 'flex'}}>
+                    <ClassContainer>
                         <ListItem button onClick={() => navigate(`/class/${cls._id}`)}>
                             <ListItemText primary={
-                                <span style={{fontSize: "1.1rem"}}>{cls.title}</span>
-                            } 
-                            secondary={
-                                <div>
-                                    <div>Last modified by: {cls.author}</div>
-                                    <div>Last modified at: {new Date(cls.createdAt).toLocaleString()}</div>
-                                </div>
-                            } />
+                                <span style={{ fontSize: "1.1rem" }}>{cls.title}</span>
+                            }
+                                secondary={
+                                    <div>
+                                        <div>Last modified by: {cls.author}</div>
+                                        <div>Last modified at: {new Date(cls.createdAt).toLocaleString()}</div>
+                                    </div>
+                                } />
                         </ListItem>
-                        <HeartButton cid={cls._id}/>
+                        <HeartButton cid={cls._id} />
 
-                    </div>
-                    
+                    </ClassContainer>
+
                 ))}
 
             </List>
@@ -105,11 +121,14 @@ function HeartButton(cid) {
     }
 
     return (
-        
-        <Button onClick={() => handleHeart(cid)}>
-            {/* {setHToggle()} */}
-            <FavoriteIcon color={(hToggle) ? "secondary" : "disabled"}/>
-        </Button>
+
+        <ThemeProvider theme={theme}>
+
+            <Button onClick={() => handleHeart(cid)}>
+                {/* {setHToggle()} */}
+                <FavoriteIcon color={(hToggle) ? "oldSecondary" : "disabled"} />
+            </Button>
+        </ThemeProvider>
     );
 
 }

@@ -5,11 +5,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import List from '@mui/material/List'
 import ListItemText from '@mui/material/ListItemText'
+import { styled } from '@mui/system'
 import EditIcon from '@mui/icons-material/Edit'
 import ListItem from '@mui/material/ListItem'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
+
+const ThreadContainer = styled('div')(() => ({
+    display: "flex"
+}))
 
 
 export default function ShowClass() {
@@ -47,7 +52,7 @@ export default function ShowClass() {
             <Button variant="contained" color="primary" onClick={() => navigate('/thread/create/' + id)}>Create Thread</Button>
             <List>
                 {threads.map((thread, index) => (
-                    <div sx={{display: "flex"}}>
+                    <ThreadContainer>
                         <ListItem key={index} button onClick={() => navigate(`/thread/${thread._id}`)}>
                             <ListItemText primary={
                                 <span style={{fontSize: "1.1rem"}}><Latex>{thread.title}</Latex></span>
@@ -61,7 +66,7 @@ export default function ShowClass() {
                         </ListItem>
                         {(thread && (user._id === thread.userId)) && <Button onClick={() => navigate(`/thread/edit/${thread._id}`)}><EditIcon /></Button>}
                         {(thread && (user._id === thread.userId)) && <Button onClick={() => handleDelete(thread._id)}><DeleteIcon /></Button>}
-                    </div>
+                    </ThreadContainer>
                 ))}
             </List>
 

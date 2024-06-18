@@ -11,15 +11,18 @@ import Latex from 'react-latex-next'
 import AppBar from '@mui/material/AppBar'
 import 'katex/dist/katex.min.css'
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views-react-18-fix';
-import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { styled } from '@mui/system'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+const PaperDiv = styled('div')(({theme}) => ({
+    flexGrow: 1,
+    // backgroundColor: theme.palette.background.paper
+}))
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -144,8 +147,7 @@ export default function Profile() {
             <h1>{user.name}</h1>
             <br />
 
-            {/* Figure out way to change bgcolor to paper */}
-            <div sx={{ flexGrow: 1}}>
+            <PaperDiv>
                 <AppBar position="static">
                     <Tabs
                     variant="fullWidth"
@@ -157,6 +159,8 @@ export default function Profile() {
                     <LinkTab label="Your Replies" href="/yourreplies" {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
+
+                {/* Functionality of TabPanel has changed, fix this */}
                 <TabPanel value={value} index={0}>
                     <div>
                     {(info.threads && info.posts) ?
@@ -199,7 +203,7 @@ export default function Profile() {
                         (
                             <div>
                                 <br />
-                                <h1>Your Replies</h1>
+                                {/* <h1>Your Replies</h1> */}
                                 <List>
                                     {info.posts.map((post, index) => (
                                         <div>
@@ -232,7 +236,7 @@ export default function Profile() {
 
                 </div>
                 </TabPanel>
-            </div>
+            </PaperDiv>
         </div>
 
 

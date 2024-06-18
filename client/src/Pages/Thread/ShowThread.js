@@ -18,6 +18,7 @@ import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import python from 'highlight.js/lib/languages/python';
 import java from 'highlight.js/lib/languages/java';
+import { styled } from '@mui/system'
 import cpp from 'highlight.js/lib/languages/cpp';
 import "highlight.js/styles/monokai.css";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -28,6 +29,10 @@ hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("python", python);
 hljs.registerLanguage("java", java);
 hljs.registerLanguage("cpp", cpp);
+
+const PostContainer = styled('div')(() => ({
+    display: "flex"
+}))
 
 
 export default function ShowThread() {
@@ -216,14 +221,14 @@ export default function ShowThread() {
 
             {thread && <p style={{ fontSize: "1.1rem" }}><Latex>{content.replace(/\n/g, '<br>') + ' '}</Latex></p>}
             {/* <ThemeProvider theme={theme}> */}
-            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="primary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>}
-            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>}
+            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="secondary" style={{ marginRight: "1rem" }} onClick={() => navigate(`/thread/edit/${id}`)}>Edit Thread</Button>}
+            {(thread && (user._id === thread.userId)) && <Button variant="contained" color="error" style={{ marginRight: "1rem" }} onClick={() => handleThreadDelete(id)}>Delete Thread</Button>}
             {/* </ThemeProvider> */}
 
             <List>
                 {posts.map((post, index) => (
 
-                    <div sx={{display: "flex"}}>
+                    <PostContainer>
                         {(post.content).includes("```java") ?
                             (
                                 <ListItem key={index}>
@@ -263,7 +268,7 @@ export default function ShowThread() {
                             )}
                         {(post && (user._id === post.userId)) && <Button onClick={() => navigate(`/post/edit/${post._id}`)}><EditIcon /></Button>}
                         {(post && (user._id === post.userId)) && <Button onClick={() => handlePostDelete(post._id)}><DeleteIcon /></Button>}
-                    </div>
+                    </PostContainer>
 
                 ))}
             </List>
