@@ -10,6 +10,8 @@
     display: flex;
     justify-content: center;
 }
+
+/* Refactor to remove important tags */
 #buttonCenter > * {
     background-color: #3F51B5 !important;
     margin: 20px !important;
@@ -27,12 +29,8 @@
 /* #loggedInBtns > * {
     width: 45%;
 } */
-Button {
 
-}
-/* body {
-
-} */
+/* Refactor to remove important tags */
 html {
     /* background-image: url("./duckheart.png"); */
     /* background-image: url(./Pages/duckheart.png); */
