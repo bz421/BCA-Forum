@@ -154,8 +154,9 @@ export default function Profile() {
                     value={value}
                     onChange={handleChange}
                     aria-label="nav tabs example"
+                    style={{"background": "orange"}}
                     >
-                    <LinkTab label="Your Threads" href="/yourthreads" {...a11yProps(0)} />
+                    <LinkTab label="Your Threads" style={{"background": "lightblue"}} href="/yourthreads" {...a11yProps(0)} />
                     <LinkTab label="Your Replies" href="/yourreplies" {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>

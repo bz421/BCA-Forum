@@ -46,6 +46,7 @@ export default function Home() {
     const getLiked = async () => {
         if (user && user !== 'null') {
             const ids = user.heartedClasses
+            console.log(ids)
             let ret = []
             for (let i = 0; i < ids.length; i++) {
                 await axios.get('/api/class/' + ids[i]).then((res) => ret.push(res))

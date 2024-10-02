@@ -210,7 +210,7 @@ export default function ShowThread() {
                 :
                 (
                     <div>
-
+                        {/* thread.name shows last edited person, add new field to Thread for last editor */}
                         <p style={{ fontSize: "0.9rem" }}>By {thread.name}</p>
                     </div>
 
